@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import LoginScreen from './src/views/loginScreen';
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
   return (
-    <LoginScreen/>
+    <AppNavigator/>
   );
 }
 
@@ -16,3 +16,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
