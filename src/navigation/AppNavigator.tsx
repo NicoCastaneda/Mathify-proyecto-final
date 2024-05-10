@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { Header, createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import LoginScreen from '../views/LoginScreen';
+import LoginScreen from '../views/loginScreen';
 import HomeScreen from '../views/HomeScreen';
 
 const Stack = createStackNavigator();
