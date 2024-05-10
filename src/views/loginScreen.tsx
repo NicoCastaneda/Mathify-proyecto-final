@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation }) {
         console.log(user);
       })
       .catch((error) => {
-        Alert.alert("User already exists");
+        Alert.alert(error.message);
       });
   };
 
@@ -56,6 +56,8 @@ export default function LoginScreen({ navigation }) {
         const user = userCredential.user;
         console.log(user);
         navigation.navigate("Home");
+        setEmail("");
+        setPassword("");
       })
       .catch((error) => {
         console.log(error);
@@ -68,6 +70,7 @@ export default function LoginScreen({ navigation }) {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log(userInfo);
+      navigation.navigate("Home");
     } catch (error) {
       switch (error.code) {
         case statusCodes.SIGN_IN_CANCELLED:
@@ -81,7 +84,7 @@ export default function LoginScreen({ navigation }) {
           console.log("Play services not available");
           break;
         default:
-          console.log("Ni idea tbh, aqui está el error");
+            console.log("Error desconocido:");
           console.log(error.message);
       }
     }
@@ -113,7 +116,7 @@ export default function LoginScreen({ navigation }) {
           colors={["#1F2B65", "#00C2FF"]}
           style={styles.button}
         >
-          <Text style={styles.buttonText}>Sign In</Text>
+          <Text style={styles.buttonText}>Log In</Text>
         </LinearGradient>
       </TouchableOpacity>
       <Text style={styles.NALabel}>Don't have an account?</Text>
@@ -128,10 +131,10 @@ export default function LoginScreen({ navigation }) {
         </LinearGradient>
       </TouchableOpacity>
       <Text style={styles.ORLabel}>Or</Text>
-      <View style={{ marginTop: 25 }}>
+      <View style={{ marginTop: 25, padding: 0.05, borderRadius: 10, backgroundColor: "white"}}>
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
-          style={{ width: 230, height: 48 }}
+          style={{ width: 230, height: 48}}
           color={GoogleSigninButton.Color.Light}
           onPress={handelGoogleSignIn}
         />
