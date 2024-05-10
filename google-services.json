@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "817845370181",
+    "project_id": "mathify-91a29",
+    "storage_bucket": "mathify-91a29.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817845370181:android:da4cdf39dbf922e6fd122c",
+        "android_client_info": {
+          "package_name": "com.charliedb.Mathify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817845370181-o39ejg683g8um1jdmd430djk7i2esafl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.charliedb.Mathify",
+            "certificate_hash": "8274f024b8e521b4d8205f84c13a03d371cbe742"
+          }
+        },
+        {
+          "client_id": "817845370181-7bok7ripvgooogb6rdhavil2uukofsm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk4mUcCyCeCrhjCSzexMBN0DzHUYT4Nj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817845370181-7bok7ripvgooogb6rdhavil2uukofsm1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
