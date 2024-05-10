@@ -1,13 +1,14 @@
-import { View, Text, Alert, Button } from "react-native";
+import { View, Text, Alert, Button, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { firebaseConfig } from "../../firebase-config";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import NavBar from "../components/NavBar";
 
 export default function HomeScreen({ navigation }) {
   return (
-    <View>
+    <View style={styles.container}>
       <Button
         title="Log off"
         onPress={() => {
@@ -16,6 +17,23 @@ export default function HomeScreen({ navigation }) {
         }}
       ></Button>
       <Text>HOME</Text>
+
+
+      <View style={styles.navbar}><NavBar/></View>
+      
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    backgroundColor: '#000',
+  },
+  navbar: {
+
+    padding: 8
+
+  }
+})
