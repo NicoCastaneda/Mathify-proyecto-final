@@ -1,26 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { Text, View, TextInput, Image, StyleSheet, TouchableOpacity, Alert,} from "react-native";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getAuth} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import app, { firebaseConfig } from "../../firebase-config";
 import { LinearGradient } from "expo-linear-gradient";
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
+import { GoogleSignin, GoogleSigninButton, statusCodes,} from "@react-native-google-signin/google-signin";
 import { AppContext } from "../context/AppContext";
 import { user } from "../interface/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -67,8 +51,7 @@ export default function LoginScreen({ navigation }) {
   useEffect(() => {
     getInfo();
   }, []);
-
-  const auth = getAuth(app);
+  const auth = getAuth(app)
 
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -89,9 +72,7 @@ export default function LoginScreen({ navigation }) {
         const user = userCredential.user;
         var nombre = user.email;
         var email = user.email;
-        var foto =
-          "https://placehold.co/400/2e82c7/ffffff?text=" +
-          nombre.slice(0,1)
+        var foto = `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0,1)}&font=bebas`
           const profile: user = {nombre:nombre,
             email:email,
             foto:foto,
@@ -158,6 +139,7 @@ export default function LoginScreen({ navigation }) {
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
+        keyboardType="email-address"
       />
       <TextInput
         style={styles.input}
