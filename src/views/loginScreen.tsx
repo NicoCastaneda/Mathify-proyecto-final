@@ -28,21 +28,6 @@ export default function LoginScreen({ navigation }) {
     accountName: "", // [Android] specifies an account name on the device that should be used
   });
 
-  const getInfo = async () => {
-    try {
-      const value = await AsyncStorage.getItem("perfil");
-      if (value !== null) {
-        console.log(JSON.parse(value))
-        setPerfil(JSON.parse(value));
-        console.log(value);
-        navigation.navigate("Home");
-      }
-    } catch (error) {
-      Alert.alert("Ha habido un error")
-      console.log(error)
-    }
-  };
-
   const setInfo = async (user: user) => {
     try {
       await AsyncStorage.setItem("perfil", JSON.stringify(user))
@@ -53,9 +38,6 @@ export default function LoginScreen({ navigation }) {
     }
   }
 
-  useEffect(() => {
-    getInfo();
-  }, []);
   const auth = getAuth(app)
 
   const handleCreateAccount = () => {
@@ -183,21 +165,14 @@ export default function LoginScreen({ navigation }) {
         </LinearGradient>
       </TouchableOpacity>
       <Text style={styles.ORLabel}>Or</Text>
-      <View
-        style={{
-          marginTop: 25,
-          padding: 0.05,
-          borderRadius: 10,
-          backgroundColor: "white",
-        }}
-      >
+      
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
-          style={{ width: 230, height: 48 }}
+          style={{ width: '100%', height: 48, marginTop: 20, marginBottom: -20 }}
           color={GoogleSigninButton.Color.Light}
           onPress={handelGoogleSignIn}
         />
-      </View>
+    
 
       <Modal
         animationType="slide"
