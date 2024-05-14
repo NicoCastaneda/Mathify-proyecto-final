@@ -7,9 +7,8 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import NavBar from "../components/NavBar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContext } from "../context/AppContext";
-import { user } from "../interface/user";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen( {navigation} ) {
   const {perfil, setPerfil} = useContext(AppContext)
   const deleteInfo = async () => {
     try {

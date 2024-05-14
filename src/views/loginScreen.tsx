@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Text, View, TextInput, Image, StyleSheet, TouchableOpacity, Alert,} from "react-native";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getAuth} from "firebase/auth";
+import { Text, View, TextInput, Image, StyleSheet, TouchableOpacity, Alert, Modal, } from "react-native";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import app, { firebaseConfig } from "../../firebase-config";
 import { LinearGradient } from "expo-linear-gradient";
-import { GoogleSignin, GoogleSigninButton, statusCodes,} from "@react-native-google-signin/google-signin";
+import { GoogleSignin, GoogleSigninButton, statusCodes, } from "@react-native-google-signin/google-signin";
 import { AppContext } from "../context/AppContext";
 import { user } from "../interface/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,6 +13,11 @@ export default function LoginScreen({ navigation }) {
   const { perfil, setPerfil } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+
   GoogleSignin.configure({
     webClientId:
       "817845370181-7bok7ripvgooogb6rdhavil2uukofsm1.apps.googleusercontent.com", // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
@@ -54,7 +59,7 @@ export default function LoginScreen({ navigation }) {
   const auth = getAuth(app)
 
   const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, newEmail, newPassword)
       .then((userCredential) => {
         console.log("acc created");
         const user = userCredential.user;
@@ -63,6 +68,9 @@ export default function LoginScreen({ navigation }) {
       .catch((error) => {
         Alert.alert(error.message);
       });
+    setModalVisible(false);
+    setNewEmail("");
+    setNewPassword("");
   };
 
   const handleSignIn = () => {
@@ -72,13 +80,15 @@ export default function LoginScreen({ navigation }) {
         const user = userCredential.user;
         var nombre = user.email;
         var email = user.email;
-        var foto = `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0,1)}&font=bebas`
-          const profile: user = {nombre:nombre,
-            email:email,
-            foto:foto,
-            achievements: [],
-            lastUnitCoursed: 0,} 
-          console.log(profile)
+        var foto = `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0, 1)}&font=bebas`
+        const profile: user = {
+          nombre: nombre,
+          email: email,
+          foto: foto,
+          achievements: [],
+          lastUnitCoursed: 0,
+        }
+        console.log(profile)
         setPerfil(profile);
         console.log(perfil);
         setInfo(profile)
@@ -99,11 +109,13 @@ export default function LoginScreen({ navigation }) {
       var nombre = userInfo.user.name;
       var email = userInfo.user.email;
       var foto = userInfo.user.photo;
-      const user: user = {nombre:nombre,
-        email:email,
-        foto:foto,
+      const user: user = {
+        nombre: nombre,
+        email: email,
+        foto: foto,
         achievements: [],
-        lastUnitCoursed: 0,} 
+        lastUnitCoursed: 0,
+      }
       console.log(user)
       setPerfil(user);
       console.log(perfil)
@@ -129,6 +141,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
+    
     <View style={styles.container}>
       <Image style={styles.logo} source={require("../../assets/logo.png")} />
       <Text style={styles.text}>
@@ -159,7 +172,7 @@ export default function LoginScreen({ navigation }) {
         </LinearGradient>
       </TouchableOpacity>
       <Text style={styles.NALabel}>Don't have an account?</Text>
-      <TouchableOpacity onPress={handleCreateAccount} style={{ width: "100%" }}>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={{ width: "100%" }}>
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -185,6 +198,50 @@ export default function LoginScreen({ navigation }) {
           onPress={handelGoogleSignIn}
         />
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalCenteredView}>
+          <View style={styles.modalView}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setNewEmail}
+              value={newEmail}
+              placeholder="Email"
+              keyboardType="email-address"
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={setNewPassword}
+              value={newPassword}
+              placeholder="Password"
+              secureTextEntry
+            />
+
+            <TouchableOpacity onPress={handleCreateAccount} style={{ width: "100%" }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={["#1F2B65", "#00C2FF"]}
+                style={styles.button}
+              >
+                <Text style={styles.buttonText}>Create Account</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={{ width: "100%" }}>
+              <Text style={styles.modalText}>Cancel</Text>
+            </TouchableOpacity>
+
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -244,5 +301,32 @@ const styles = StyleSheet.create({
     marginBottom: -15,
     fontWeight: "bold",
     fontSize: 15,
+  },
+  modalCenteredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    marginTop: 260,
+    backgroundColor: '#000932',
+    borderRadius: 10,
+    width: '77%',
+    alignItems: 'center',
+
+  },
+  modalTextInput: {
+    height: 40,
+    width: '100%',
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+  },
+  modalText: {
+    textAlign: 'center',
+    color: 'white',
+    fontStyle: 'italic',
+    fontSize: 15,
+    marginTop: 225,
   },
 });

@@ -24,6 +24,7 @@ const AppNavigator = () => {
         <Tab.Screen name="Stats" component={StatsScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
 
+        <Tab.Screen name="Login" component={loginScreen} options={{headerShown: false}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
