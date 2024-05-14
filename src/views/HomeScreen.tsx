@@ -23,16 +23,19 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Button
-        title="Log off"
+        title="Log out"
         onPress={() => {
           GoogleSignin.signOut();
           navigation.navigate("Login")
           AsyncStorage.removeItem("perfil")
           deleteInfo()
-        }}
+        }
+      }
       ></Button>
       <Image style={{height: 80, width: 80, borderRadius: 100}} src={perfil.foto}></Image>
       <Text>HOME</Text>
+      <Text>{perfil.email}</Text>
+
 
 
       <View style={styles.navbar}><NavBar/></View>
@@ -43,13 +46,14 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 100,
     flex: 1,
-    justifyContent: 'space-between',
-    backgroundColor: '#000',
+
   },
   navbar: {
-
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
     padding: 8
-
   }
 })
