@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -21,8 +21,12 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
+import { AppContext } from "../context/AppContext";
+import { user } from "../interface/user";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }) {
+  const { perfil, setPerfil } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   GoogleSignin.configure({
@@ -34,6 +38,35 @@ export default function LoginScreen({ navigation }) {
     forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
     accountName: "", // [Android] specifies an account name on the device that should be used
   });
+
+  const getInfo = async () => {
+    try {
+      const value = await AsyncStorage.getItem("perfil");
+      if (value !== null) {
+        console.log(JSON.parse(value))
+        setPerfil(JSON.parse(value));
+        console.log(value);
+        navigation.navigate("Home");
+      }
+    } catch (error) {
+      Alert.alert("Ha habido un error")
+      console.log(error)
+    }
+  };
+
+  const setInfo = async (user: user) => {
+    try {
+      await AsyncStorage.setItem("perfil", JSON.stringify(user))
+      console.log("Guardando...")
+    } catch (error) {
+      Alert.alert("Ha habido un error")
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getInfo();
+  }, []);
 
   const auth = getAuth(app);
 
@@ -54,7 +87,20 @@ export default function LoginScreen({ navigation }) {
       .then((userCredential) => {
         console.log("signed in");
         const user = userCredential.user;
-        console.log(user);
+        var nombre = user.email;
+        var email = user.email;
+        var foto =
+          "https://placehold.co/400/2e82c7/ffffff?text=" +
+          nombre.slice(0,1)
+          const profile: user = {nombre:nombre,
+            email:email,
+            foto:foto,
+            achievements: [],
+            lastUnitCoursed: 0,} 
+          console.log(profile)
+        setPerfil(profile);
+        console.log(perfil);
+        setInfo(profile)
         navigation.navigate("Home");
         setEmail("");
         setPassword("");
@@ -69,7 +115,18 @@ export default function LoginScreen({ navigation }) {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
+      var nombre = userInfo.user.name;
+      var email = userInfo.user.email;
+      var foto = userInfo.user.photo;
+      const user: user = {nombre:nombre,
+        email:email,
+        foto:foto,
+        achievements: [],
+        lastUnitCoursed: 0,} 
+      console.log(user)
+      setPerfil(user);
+      console.log(perfil)
+      setInfo(user)
       navigation.navigate("Home");
     } catch (error) {
       switch (error.code) {
@@ -84,7 +141,7 @@ export default function LoginScreen({ navigation }) {
           console.log("Play services not available");
           break;
         default:
-            console.log("Error desconocido:");
+          console.log("Error desconocido:");
           console.log(error.message);
       }
     }
@@ -131,10 +188,17 @@ export default function LoginScreen({ navigation }) {
         </LinearGradient>
       </TouchableOpacity>
       <Text style={styles.ORLabel}>Or</Text>
-      <View style={{ marginTop: 25, padding: 0.05, borderRadius: 10, backgroundColor: "white"}}>
+      <View
+        style={{
+          marginTop: 25,
+          padding: 0.05,
+          borderRadius: 10,
+          backgroundColor: "white",
+        }}
+      >
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
-          style={{ width: 230, height: 48}}
+          style={{ width: 230, height: 48 }}
           color={GoogleSigninButton.Color.Light}
           onPress={handelGoogleSignIn}
         />
