@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "proyecto-final",
+    "name": "mathify",
     "slug": "proyecto-final",
     "version": "1.0.2",
     "orientation": "portrait",
@@ -23,7 +23,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.charliedb.Mathify"
+      "package": "com.charliedb.Mathify",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAk4mUcCyCeCrhjCSzexMBN0DzHUYT4Nj0"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

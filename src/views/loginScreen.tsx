@@ -10,13 +10,21 @@ import { user } from "../interface/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }) {
-  const { perfil, setPerfil } = useContext(AppContext);
+  const { perfil, setPerfil} = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [modalVisible, setModalVisible] = useState(false);
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
+
+  useEffect(() => {
+    console.log(perfil)
+    if (perfil.email != null) {
+      navigation.navigate("Home");
+    }
+    else navigation.navigate("Login");
+  },[perfil]);
 
   GoogleSignin.configure({
     webClientId:
@@ -74,7 +82,6 @@ export default function LoginScreen({ navigation }) {
         setPerfil(profile);
         console.log(perfil);
         setInfo(profile)
-        navigation.navigate("Home");
         setEmail("");
         setPassword("");
       })
@@ -102,7 +109,6 @@ export default function LoginScreen({ navigation }) {
       setPerfil(user);
       console.log(perfil)
       setInfo(user)
-      navigation.navigate("Home");
     } catch (error) {
       switch (error.code) {
         case statusCodes.SIGN_IN_CANCELLED:

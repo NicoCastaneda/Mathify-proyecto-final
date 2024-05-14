@@ -1,59 +1,95 @@
-import React, { useState } from 'react';
-import { Image, Text, View, StyleSheet, Modal } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useContext, useState } from 'react';
+import { Image, Text, View, StyleSheet, Modal, Touchable, TouchableOpacity, Alert } from 'react-native';
+import { AppContext } from '../context/AppContext';
+import { user } from '../interface/user';
 
 interface contents {
     close: () => void;
 }
 
 const Menu = ({close}: contents) => {
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.menu}>
-        <Image source={require('../../assets/logo.png')} style={styles.logo} />
-        <Text style={styles.title}>Mathify</Text>
-        <View style={styles.navigation}>
-          <Text style={styles.navItem}>Profile</Text>
-          <Text style={styles.navItem}>Settings</Text>
-          <Text style={styles.navItem}>About</Text>
-          <Text style={styles.navItem}>Log Out</Text>
-        </View>
-        <Text onPress={close} style={styles.closeButton}>X</Text>
-      </View>
-    </View>
-  );
+    const {setPerfil} = useContext(AppContext)
+    const deleteInfo = async () => {
+        try {
+          await AsyncStorage.removeItem("perfil")
+          console.log("Eliminando...")
+          setPerfil({} as user)
+        } catch (error) {
+          Alert.alert("Ha habido un error")
+          console.log(error)
+        }
+      }
+      
+    return (
+          <View style={styles.container}>
+            <View style={styles.menu}>
+              <Image source={require('../../assets/splash.png')} style={styles.logo} />
+              <View style={styles.navigation}>
+                <Text>_________________</Text>
+                <Text style={styles.navItem}>Settings</Text>
+                <Text style={styles.navItem}>About</Text>
+                <Text>_________________</Text>
+                <TouchableOpacity  onPress={() => {
+    GoogleSignin.signOut();
+    AsyncStorage.removeItem("perfil")
+    deleteInfo()
+    close()
+  }
+  }>
+                <Text style={styles.navItem}>Log Out</Text>
+                </TouchableOpacity>
+              </View>
+              <Text onPress={close} style={styles.closeButton}>✖</Text>
+            </View>
+          </View>
+      );
 };
 
 const styles = StyleSheet.create({
+
   container: {
-    flex: 1, // Makes the container take up the whole screen
-    flexDirection: 'row', // Arrange child elements horizontally
-    alignSelf: 'flex-end', // Align the container to the right
+    marginTop: 15,
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    overflow: 'hidden',
+    shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 10,
+  },
+  shadowOpacity: 1,
+  elevation: 8,
   },
   menu: {
     backgroundColor: '#fff',
-    padding: 20,
-    width: '45%', // Set width to 45%
-    height: '100%', // Set height to 100%
+    padding: 30,
+    width: '45%',
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
+
   navigation: {
     flexDirection: 'column', // Arrange navigation items vertically
   },
   navItem: {
-    marginBottom: 10, // Add some space between navigation items
+    marginTop: 20,
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   closeButton: {
-    position: 'absolute', // Position close button absolutely
-    top: 10, // Set top position with some padding
-    right: 10, // Set right position with some padding
+    position: 'absolute',
+    top: 20,
+    right: 20, 
+    fontSize: 20,
   },
 });
 

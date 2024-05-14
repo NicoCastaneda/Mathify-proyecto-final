@@ -12,11 +12,13 @@ import loginScreen from '../views/loginScreen';
 import { Ionicons } from 'react-native-vector-icons';
 import { Modal } from 'react-native';
 import Menu from '../components/Menu';
+import MapScreen from '../views/MapScreen';
 
 const Tab = createBottomTabNavigator();
 
 
 const AppNavigator = () => {
+
 
   const [showNavBar, setShowNavBar] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -123,12 +125,13 @@ const AppNavigator = () => {
         }}/>
 
         <Tab.Screen name="Login" component={loginScreen} options={{headerShown: false}}/>
+        <Tab.Screen name="Map" component={MapScreen} options={{headerShown: false}}/> 
       </Tab.Navigator>
       
       <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
-      visible={modalVisible}><Menu close={() => {setModalVisible(false)}}/>
+      visible={modalVisible}><Menu close={() => {setModalVisible(false)}} />
       </Modal>
 
     </NavigationContainer>
