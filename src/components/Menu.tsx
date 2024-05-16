@@ -5,47 +5,65 @@ import React, { useContext, useState } from 'react';
 import { Image, Text, View, StyleSheet, Modal, Touchable, TouchableOpacity, Alert } from 'react-native';
 import { AppContext } from '../context/AppContext';
 import { user } from '../interface/user';
+import { useNavigation } from '@react-navigation/native';
 
 interface contents {
-    close: () => void;
+  close: () => void;
 }
 
-const Menu = ({close}: contents) => {
-    const {setPerfil} = useContext(AppContext)
-    const deleteInfo = async () => {
-        try {
-          await AsyncStorage.removeItem("perfil")
-          console.log("Eliminando...")
-          setPerfil({} as user)
-        } catch (error) {
-          Alert.alert("Ha habido un error")
-          console.log(error)
-        }
-      }
-      
-    return (
-          <View style={styles.container}>
-            <View style={styles.menu}>
-              <Image source={require('../../assets/splash.png')} style={styles.logo} />
-              <View style={styles.navigation}>
-                <Text>_________________</Text>
-                <Text style={styles.navItem}>Settings</Text>
-                <Text style={styles.navItem}>About</Text>
-                <Text>_________________</Text>
-                <TouchableOpacity  onPress={() => {
-    GoogleSignin.signOut();
-    AsyncStorage.removeItem("perfil")
-    deleteInfo()
-    close()
+const Menu = ({ close }: contents) => {
+  const { setPerfil } = useContext(AppContext)
+  const navigation = useNavigation();
+
+  const deleteInfo = async () => {
+    try {
+      await AsyncStorage.removeItem("perfil")
+      console.log("Eliminando...")
+      setPerfil({} as user)
+    } catch (error) {
+      Alert.alert("Ha habido un error")
+      console.log(error)
+    }
   }
-  }>
-                <Text style={styles.navItem}>Log Out</Text>
-                </TouchableOpacity>
-              </View>
-              <Text onPress={close} style={styles.closeButton}>✖</Text>
-            </View>
-          </View>
-      );
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.menu}>
+        <Image source={require('../../assets/splash.png')} style={styles.logo} />
+        <View style={styles.navigation}>
+          <Text>_________________</Text>
+          {/* @ts-ignore */}
+          <TouchableOpacity onPress={() => { navigation.navigate("Settings"); close() }}>
+            <Text style={styles.navItem}>Settings</Text>
+          </TouchableOpacity>
+
+          {/* @ts-ignore */}
+          <TouchableOpacity onPress={() => { navigation.navigate("Map"); close() }}>
+            <Text style={styles.navItem}>Map</Text>
+          </TouchableOpacity>
+
+          {/* @ts-ignore */}
+          <TouchableOpacity onPress={() => { navigation.navigate("About"); close() }}>
+            <Text style={styles.navItem}>About</Text>
+          </TouchableOpacity>
+          <Text>_________________</Text>
+
+          <TouchableOpacity onPress={() => {
+            {/* @ts-ignore */}
+            navigation.navigate("Login")
+            GoogleSignin.signOut();
+            AsyncStorage.removeItem("perfil")
+            deleteInfo()
+            close()
+          }
+          }>
+            <Text style={styles.navItem}>Log Out</Text>
+          </TouchableOpacity>
+        </View>
+        <Text onPress={close} style={styles.closeButton}>✖</Text>
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -58,12 +76,12 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     overflow: 'hidden',
     shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 10,
-  },
-  shadowOpacity: 1,
-  elevation: 8,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 1,
+    elevation: 8,
   },
   menu: {
     backgroundColor: '#fff',
@@ -78,7 +96,7 @@ const styles = StyleSheet.create({
   },
 
   navigation: {
-    flexDirection: 'column', // Arrange navigation items vertically
+    flexDirection: 'column',
   },
   navItem: {
     marginTop: 20,
@@ -88,7 +106,7 @@ const styles = StyleSheet.create({
   closeButton: {
     position: 'absolute',
     top: 20,
-    right: 20, 
+    right: 20,
     fontSize: 20,
   },
 });
