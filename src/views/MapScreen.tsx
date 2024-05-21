@@ -1,20 +1,24 @@
 import React from 'react';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { StyleSheet, View, Text } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { googleMapIsInstalled } from 'react-native-maps/lib/decorateMapComponent';
 
 export default function MapScreen() {
   return (
     <View style={styles.container}>
-      <Text>Map</Text>
      <MapView 
-      provider={PROVIDER_GOOGLE}
+      
       style={styles.map} 
       initialRegion={{
         latitude: 4.861668015490226,
         longitude: -74.0336078314903,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
-      }}/>
+      }}>
+        <Marker coordinate={{latitude: 4.861668015490226,
+        longitude: -74.0336078314903}}/>
+      </MapView>
+      <View style={{height: 80}} />
     </View>
   );
 }
@@ -22,9 +26,9 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "grey"
   },
   map: {
-    width: '100%',
-    height: '100%',
+    ...StyleSheet.absoluteFillObject
   },
 });

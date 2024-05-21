@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Text, View, TextInput, Image, StyleSheet, TouchableOpacity, Alert, Modal, } from "react-native";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, initializeAuth, getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import app, { firebaseConfig } from "../../firebase-config";
+import app, { dbInstance, firebaseConfig } from "../../firebase-config";
 import { LinearGradient } from "expo-linear-gradient";
 import { GoogleSignin, GoogleSigninButton, statusCodes, } from "@react-native-google-signin/google-signin";
 import { AppContext } from "../context/AppContext";
 import { user } from "../interface/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { addDoc, collection, getDocs } from "firebase/firestore/lite";
 
 export default function LoginScreen({ navigation }) {
   const { perfil, setPerfil} = useContext(AppContext);
@@ -15,6 +16,7 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [newName, setNewName] = useState('')
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
@@ -36,6 +38,34 @@ export default function LoginScreen({ navigation }) {
     accountName: "", // [Android] specifies an account name on the device that should be used
   });
 
+  const getFromFirebase = async (email:string)=> {
+    const querySnapshot = await getDocs(collection(dbInstance, "perfiles"))
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data()}`);
+      var profile = {...doc.data} as user
+      if (profile.email == email) {
+        setPerfil(profile)
+        setInfo(profile)
+      }
+    })
+
+  }
+
+  const setToFirebase = async (nombre: string, email:string) => {
+    try {
+      await addDoc(collection(dbInstance,"perfiles"), {
+        nombre: nombre,
+        email: email,
+        foto: `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0, 1)}&font=bebas`,
+        achievements: [],
+        lastUnitCoursed: 0
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   const setInfo = async (user: user) => {
     try {
       await AsyncStorage.setItem("perfil", JSON.stringify(user))
@@ -53,7 +83,12 @@ export default function LoginScreen({ navigation }) {
       .then((userCredential) => {
         console.log("acc created");
         const user = userCredential.user;
+        setToFirebase(newName, user.email);
         console.log(user);
+        Alert.alert("Tu cuenta ha sido creada correctamente")
+        setNewName('')
+        setNewEmail('')
+        setNewPassword('')
       })
       .catch((error) => {
         Alert.alert(error.message);
@@ -67,21 +102,10 @@ export default function LoginScreen({ navigation }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log("signed in");
-        const user = userCredential.user;
-        var nombre = user.email;
+        const user = userCredential.user
         var email = user.email;
-        var foto = `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0, 1)}&font=bebas`
-        const profile: user = {
-          nombre: nombre,
-          email: email,
-          foto: foto,
-          achievements: [],
-          lastUnitCoursed: 0,
-        }
-        console.log(profile)
-        setPerfil(profile);
-        console.log(perfil);
-        setInfo(profile)
+        //var foto = `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0, 1)}&font=bebas`
+        getFromFirebase(email);
         setEmail("");
         setPassword("");
       })
@@ -95,20 +119,21 @@ export default function LoginScreen({ navigation }) {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      var nombre = userInfo.user.name;
       var email = userInfo.user.email;
-      var foto = userInfo.user.photo;
-      const user: user = {
-        nombre: nombre,
-        email: email,
-        foto: foto,
-        achievements: [],
-        lastUnitCoursed: 0,
+      getFromFirebase(email)
+      if (perfil.email == null) {
+        var foto = userInfo.user.photo;
+        var nombre = userInfo.user.name
+        const user: user = {
+          nombre: nombre,
+          email: email,
+          foto: foto,
+          achievements: [],
+          lastUnitCoursed: 0,
+        }
+        setPerfil(user);
+        setInfo(user);
       }
-      console.log(user)
-      setPerfil(user);
-      console.log(perfil)
-      setInfo(user)
     } catch (error) {
       switch (error.code) {
         case statusCodes.SIGN_IN_CANCELLED:
@@ -190,6 +215,12 @@ export default function LoginScreen({ navigation }) {
       >
         <View style={styles.modalCenteredView}>
           <View style={styles.modalView}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setNewName}
+              value={newEmail}
+              placeholder="Name"
+            />
             <TextInput
               style={styles.input}
               onChangeText={setNewEmail}

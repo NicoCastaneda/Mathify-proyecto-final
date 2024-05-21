@@ -131,7 +131,7 @@ const AppNavigator = () => {
         <Tab.Screen name="Map" component={MapScreen}
           options={({ navigation }) => ({
             headerShown: true,
-            title: 'Find Educational Centers',
+            title: 'Look for our recommended institution',
             headerTransparent: true,
             headerTintColor: '#000932',
             headerTitleStyle: { fontWeight: 'bold' },

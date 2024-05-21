@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getFirestore} from 'firebase/firestore/lite'
 
 
 export const firebaseConfig = {
@@ -11,5 +12,6 @@ export const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+export const dbInstance = getFirestore(app);
 
 export default app;

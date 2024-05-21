@@ -1,25 +1,11 @@
-import { View, Text, Alert, Button, Image, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useContext, useState } from "react";
-import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { firebaseConfig } from "../../firebase-config";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { View, Text, StyleSheet,ScrollView } from "react-native";
+import React, { useContext } from "react";
 import NavBar from "../components/NavBar";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppContext } from "../context/AppContext";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function HomeScreen({ navigation }) {
   const { perfil, setPerfil } = useContext(AppContext)
-
-  var fotoPerfil
-  if (perfil.foto == null) {
-    fotoPerfil = "https://fakeimg.pl/400x400/2e82c7/ffffff?text=&font=bebas"
-  } else{
-    fotoPerfil = perfil.foto
-  }
-
-
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -29,22 +15,70 @@ export default function HomeScreen({ navigation }) {
         style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '30%', borderRadius: 20 }}
       />
 
-      <View style={{ marginTop: 300 }}></View>
-
-      <Image style={{ height: 80, width: 80, borderRadius: 100 }} src={fotoPerfil}></Image>
-      <Text>HOME</Text>
-      <Text>{perfil.email}</Text>
-
-      <TouchableOpacity onPress={() => navigation.navigate("Map")}>
-        <Text>MAP</Text> 
-      </TouchableOpacity> 
-
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text>go to login</Text> 
-      </TouchableOpacity> 
-
-
-
+      <View style={{ marginTop: 260 }}></View>
+      <View style={{position: "absolute"}}>
+        <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop: 100, marginLeft: 17, width: 400}}>Hi, {perfil.nombre}!</Text>
+        <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop:3, marginLeft: 17, width: 250}}>Start a new challenge or continue one you have already started</Text>
+      </View>
+      <View style={{marginHorizontal: "5%"}}>
+        <ScrollView style={{height: "60%"}}>
+          <Text style={styles.title}>Continue...</Text>
+          <View style={{flexDirection: "row"}}>
+            <View style={styles.activity_placeholder}>
+              <LinearGradient
+                colors={['#C674F1', '#F22E7A']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: -1 }}
+                style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', borderRadius: 20 }}
+              />
+              <Text style={styles.desc_placeholder}>Equations</Text>
+              <Text style={styles.desc_placeholder}>57%</Text>
+            </View>
+            <Text style={styles.difficulty_placeholder}>med. 2.9/5</Text>
+          </View>
+          <Text style={styles.title}>New Challenges</Text>
+          <View style={{flexDirection: "row"}}>
+            <View style={styles.activity_placeholder}>
+              <LinearGradient
+                colors={['#000932', '#00C2FF']}
+                start={{ x: -1.2, y: -0.5 }}
+                end={{ x: 1, y: -1 }}
+                style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', borderRadius: 20 }}
+              />
+              <Text style={styles.desc_placeholder}>Complete the</Text>
+              <Text style={styles.desc_placeholder}>equation</Text>
+            </View>
+            <Text style={styles.difficulty_placeholder}>med. 2.2/5</Text>
+          </View>
+          <View style={{flexDirection: "row"}}>
+            <View style={styles.activity_placeholder}>
+              <LinearGradient
+                colors={['#000932', '#00C2FF']}
+                start={{ x: -1.2, y: -0.5 }}
+                end={{ x: 1, y: -1 }}
+                style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', borderRadius: 20 }}
+              />
+              <Text style={styles.desc_placeholder}>Graphics &</Text>
+              <Text style={styles.desc_placeholder}>Functions</Text>
+            </View>
+            <Text style={styles.difficulty_placeholder}>med. 4/5</Text>
+          </View>
+          <View style={{flexDirection: "row"}}>
+            <View style={styles.activity_placeholder}>
+              <LinearGradient
+                colors={['#000932', '#00C2FF']}
+                start={{ x: -1.2, y: -0.5 }}
+                end={{ x: 1, y: -1 }}
+                style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', borderRadius: 20 }}
+              />
+              <Text style={styles.desc_placeholder}>Diferential</Text>
+              <Text style={styles.desc_placeholder}>Functions</Text>
+            </View>
+            <Text style={styles.difficulty_placeholder}>med. 4.5/5</Text>
+          </View>
+        </ScrollView>
+        <View style={styles.activity_placeholder} />
+      </View>
       <View style={styles.navbar}><NavBar /></View>
     </View>
 
@@ -62,5 +96,28 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     padding: 8
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 21
+  },
+  activity_placeholder: {
+    marginVertical: 10,
+    height: 100,
+    width: 250,
+    alignContent: "center",
+    justifyContent: "center"
+  },
+  difficulty_placeholder: {
+    alignSelf: "center",
+    marginLeft: 10,
+    fontSize: 26,
+    width: 65
+  },
+  desc_placeholder: {
+    alignSelf: 'center',
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 27,
   }
 })
