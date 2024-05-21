@@ -35,7 +35,7 @@ navigation = useNavigation();
       <View style={{height: "31%", flexDirection: "row"}}>
         <Image style={styles.profilePicture} src={fotoPerfil}></Image>
         <View>
-          <Text style={{marginTop:"70%", marginLeft: 20, fontSize: 24, fontWeight: "bold"}}>{perfil.nombre}</Text>
+          <Text style={{marginTop: 122, marginLeft: 20, fontSize: 24, fontWeight: "bold"}}>{perfil.nombre}</Text>
           <Text style={{marginLeft: 25, marginTop: 10, fontSize: 18}}>Expert - 56.870</Text>
         </View>
       </View>

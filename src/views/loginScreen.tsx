@@ -51,12 +51,15 @@ export default function LoginScreen({ navigation }) {
 
   }
 
-  const setToFirebase = async (nombre: string, email:string) => {
+  const setToFirebase = async (nombre: string, email:string, photo: string) => {
     try {
+      if (photo == "") {
+        photo = `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0, 1)}&font=bebas`
+      }
       await addDoc(collection(dbInstance,"perfiles"), {
         nombre: nombre,
         email: email,
-        foto: `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0, 1)}&font=bebas`,
+        foto: photo,
         achievements: [],
         lastUnitCoursed: 0
       })
@@ -83,7 +86,7 @@ export default function LoginScreen({ navigation }) {
       .then((userCredential) => {
         console.log("acc created");
         const user = userCredential.user;
-        setToFirebase(newName, user.email);
+        setToFirebase(newName, user.email, "");
         console.log(user);
         Alert.alert("Tu cuenta ha sido creada correctamente")
         setNewName('')
@@ -131,6 +134,7 @@ export default function LoginScreen({ navigation }) {
           achievements: [],
           lastUnitCoursed: 0,
         }
+        setToFirebase(user.nombre, user.email, user.foto)
         setPerfil(user);
         setInfo(user);
       }
