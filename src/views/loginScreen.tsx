@@ -61,7 +61,8 @@ export default function LoginScreen({ navigation }) {
         email: email,
         foto: photo,
         achievements: [],
-        lastUnitCoursed: 0
+        lastUnitCoursed: 0,
+        clues: 0
       })
     } catch (error) {
       console.log(error)
@@ -133,6 +134,7 @@ export default function LoginScreen({ navigation }) {
           foto: foto,
           achievements: [],
           lastUnitCoursed: 0,
+          clues: 0
         }
         setToFirebase(user.nombre, user.email, user.foto)
         setPerfil(user);

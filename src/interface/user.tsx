@@ -3,5 +3,6 @@ export interface user{
     email: string,
     foto: string,
     achievements: Array<string>,
-    lastUnitCoursed: number
+    lastUnitCoursed: number,
+    clues: number,
 }

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet,ScrollView } from "react-native";
+import { View, Text, StyleSheet,ScrollView, TouchableOpacity } from "react-native";
 import React, { useContext } from "react";
 import NavBar from "../components/NavBar";
 import { AppContext } from "../context/AppContext";
@@ -17,14 +17,15 @@ export default function HomeScreen({ navigation }) {
 
       <View style={{ marginTop: 260 }}></View>
       <View style={{position: "absolute"}}>
-        <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop: 100, marginLeft: 17, width: 400}}>Hi, {perfil.nombre}!</Text>
+        <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop: 100, marginLeft: 17, width: 400}}>Hi, {perfil.clues}!</Text>
         <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop:3, marginLeft: 17, width: 250}}>Start a new challenge or continue one you have already started</Text>
       </View>
       <View style={{marginHorizontal: "5%"}}>
         <ScrollView style={{height: "60%"}}>
           <Text style={styles.title}>Continue...</Text>
           <View style={{flexDirection: "row"}}>
-            <View style={styles.activity_placeholder}>
+            <View>
+              <TouchableOpacity style={styles.activity_placeholder} onPress={() => navigation.navigate('Exercise')}>
               <LinearGradient
                 colors={['#C674F1', '#F22E7A']}
                 start={{ x: 0, y: 0 }}
@@ -33,6 +34,7 @@ export default function HomeScreen({ navigation }) {
               />
               <Text style={styles.desc_placeholder}>Equations</Text>
               <Text style={styles.desc_placeholder}>57%</Text>
+              </TouchableOpacity>
             </View>
             <Text style={styles.difficulty_placeholder}>med. 2.9/5</Text>
           </View>

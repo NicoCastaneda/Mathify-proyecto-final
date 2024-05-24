@@ -40,6 +40,7 @@ navigation = useNavigation();
         </View>
       </View>
       <View style={{marginHorizontal: "5%"}}>
+        <Text style={styles.title}>Clues: {perfil.clues}</Text>
         <Text style={styles.title}>Statistics</Text>
         <Text style={styles.title}>Exp</Text>
       </View>

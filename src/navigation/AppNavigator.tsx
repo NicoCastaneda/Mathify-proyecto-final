@@ -15,6 +15,8 @@ import Menu from '../components/Menu';
 import MapScreen from '../views/MapScreen';
 import AboutScreen from '../views/AboutScreen';
 import SettingsScreen from '../views/SettingsScreen';
+import ExerciseScreen from '../views/ExerciseScreen';
+import GeminiScreen from '../views/GeminiScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -195,6 +197,76 @@ const AppNavigator = () => {
               />
             ),
           })} />
+
+        {/*pantalla Ejercicios*/}
+        <Tab.Screen name="Exercise" component={ExerciseScreen}
+          options={({ navigation }) => ({
+            headerShown: true,
+            title: '',
+            headerTransparent: true,
+            headerTintColor: '#000932',
+            headerTitleStyle: { fontWeight: 'bold' },
+
+            headerLeft: () => (
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color="#000932"
+                style={{ marginLeft: 20 }}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              />
+            ),
+            headerRight: () => (
+              <Ionicons
+                name="menu"
+                size={30}
+                color="#000932"
+                style={{ marginRight: 20 }}
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              />
+            ),
+          })} />
+
+        {/*pantalla GEMINI*/}
+        <Tab.Screen
+          name="Gemini"
+          component={GeminiScreen}
+          options={({ navigation }) => ({
+            headerShown: true,
+            title: 'Solution',
+            headerTransparent: true,
+            headerTintColor: '#000932',
+            headerTitleStyle: { fontWeight: 'bold' },
+            headerLeft: () => (
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color="#000932"
+                style={{ marginLeft: 20 }}
+                onPress={() => {
+                  navigation.navigate("Exercise");
+                }}
+              />
+            ),
+            headerRight: () => (
+              <Ionicons
+                name="menu"
+                size={30}
+                color="#000932"
+                style={{ marginRight: 20 }}
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              />
+            ),
+          })}
+        />
+
+
       </Tab.Navigator>
 
       <Modal
@@ -207,5 +279,12 @@ const AppNavigator = () => {
 
   );
 };
+
+// types.ts
+export type RootStackParamList = {
+  Exercise: undefined;
+  Gemini: { equation: string };
+};
+
 
 export default AppNavigator;

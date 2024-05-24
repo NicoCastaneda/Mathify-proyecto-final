@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useContext, useState } from 'react';
 import { Image, Text, View, StyleSheet, Modal, Touchable, TouchableOpacity, Alert } from 'react-native';
 import { AppContext } from '../context/AppContext';
-import { user } from '../interface/user';
+import { user } from '../interface/user'; 
 import { useNavigation } from '@react-navigation/native';
 
 interface contents {
