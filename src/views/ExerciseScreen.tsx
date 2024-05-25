@@ -13,25 +13,32 @@ export default function ExerciseScreen() {
     const { perfil, setPerfil } = useContext(AppContext)
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation<ExerciseScreenNavigationProp>();
+    const [shouldNavigate, setShouldNavigate] = useState(false);
     const equation = "10x+8=2";
 
     const spendClue = () => {
         setPerfil(prevPerfil => ({
-            ...prevPerfil,
-            clues: prevPerfil.clues - 1
+          ...prevPerfil,
+          clues: prevPerfil.clues - 1
         }));
-    }
-
-    const handlePress = () => {
-        if (perfil.clues >= 0) {
-            navigation.navigate("Gemini", { equation });
-            spendClue();
-            console.log("Clues: ", perfil.clues);
+        setShouldNavigate(true);
+      }
+      
+      const handlePress = () => {
+        if (perfil.clues > 0) {
+          spendClue();
         } else {
-            console.log("No clues left");
-            setModalVisible(true);
+          console.log("No clues left");
+          setModalVisible(true);
         }
-    }
+      }
+      
+      useEffect(() => {
+        if (shouldNavigate) {
+          navigation.navigate("Gemini", { equation });
+          setShouldNavigate(false);
+        }
+      }, [shouldNavigate]);
 
     return (
         <View style={styles.container}>
