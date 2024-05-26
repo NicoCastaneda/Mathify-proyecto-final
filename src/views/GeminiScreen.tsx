@@ -33,7 +33,7 @@ export default function GeminiScreen() {
             setChat([]);
             handleUserInput(equation);
         });
-    
+
         return unsubscribe;
     }, [navigation, equation]);
 
@@ -98,7 +98,11 @@ export default function GeminiScreen() {
                 keyExtractor={(item, index) => index.toString()}
                 contentContainerStyle={styles.chatContainer}
             />
-            {loading && <ActivityIndicator style={styles.loading} color="#333" />}
+            {loading && (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator style={styles.loading} color="#333" size="large" />
+                </View>
+            )}
             {error && <Text style={styles.error}>{error}</Text>}
         </View>
     );
@@ -111,11 +115,24 @@ const styles = StyleSheet.create({
     },
     chatContainer: {
         flexGrow: 1,
-        justifyContent: "flex-end",
+        justifyContent: "flex-start",
         paddingHorizontal: 16,
+        paddingTop: 150,
     },
     loading: {
-        marginTop: 10,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+
+    },
+    loadingContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     error: {
         color: "red",

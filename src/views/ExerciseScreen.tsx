@@ -20,17 +20,17 @@ export default function ExerciseScreen() {
 
     const updateFirestore = async () => {
         await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
-            clues: perfil.clues-1
-        })
-    };
-
-
-    const spendClue = () => {
+          clues: perfil.clues-1
+        });
+        setShouldNavigate(true);
+      };
+      
+      const spendClue = async () => {
         setPerfil(prevPerfil => ({
           ...prevPerfil,
           clues: prevPerfil.clues - 1
         }));
-        setShouldNavigate(true);
+        await updateFirestore();
       }
       
       const handlePress = () => {
@@ -44,7 +44,10 @@ export default function ExerciseScreen() {
       
       useEffect(() => {
         if (shouldNavigate) {
-          navigation.navigate("Gemini", { equation });
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Gemini', params: { equation } }],
+          });
           setShouldNavigate(false);
         }
       }, [shouldNavigate]);
