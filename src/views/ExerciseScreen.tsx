@@ -16,21 +16,25 @@ export default function ExerciseScreen() {
     const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation<ExerciseScreenNavigationProp>();
     const [shouldNavigate, setShouldNavigate] = useState(false);
-    const equation = "10x+8=2";
+    const equation = "2x+8=2";
 
     const updateFirestore = async () => {
-        await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
-          clues: perfil.clues-1
-        });
-        setShouldNavigate(true);
+        if (perfil.clues > 0) {
+          await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
+            clues: perfil.clues-1
+          });
+          setShouldNavigate(true);
+        }
       };
       
       const spendClue = async () => {
-        setPerfil(prevPerfil => ({
-          ...prevPerfil,
-          clues: prevPerfil.clues - 1
-        }));
-        await updateFirestore();
+        if (perfil.clues > 0) {
+          setPerfil(prevPerfil => ({
+            ...prevPerfil,
+            clues: prevPerfil.clues - 1
+          }));
+          await updateFirestore();
+        }
       }
       
       const handlePress = () => {
