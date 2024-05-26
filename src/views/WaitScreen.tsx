@@ -9,7 +9,7 @@ export default function WaitScreen({ navigation }: any) {
     setTimeout(resolve, ms));
 
   useEffect(() => {
-    wait(50).then(() => {
+    wait(100).then(() => {
       if (perfil.email != null) {
         navigation.navigate("Home");
       }
