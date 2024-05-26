@@ -32,6 +32,7 @@ const AppNavigator = () => {
       <Tab.Navigator
         tabBar={() => (showNavBar ? <NavBar /> : null)}
         initialRouteName='Wait'
+        backBehavior='history'
       >
         {/*pantalla HOME*/}
         <Tab.Screen name="Wait" component={WaitScreen} options={{ headerShown: false }} />
