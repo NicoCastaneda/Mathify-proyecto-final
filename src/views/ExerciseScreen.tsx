@@ -9,7 +9,7 @@ import { AppContext } from '../context/AppContext';
 import { doc, updateDoc } from 'firebase/firestore/lite';
 import { dbInstance } from '../../firebase-config';
 import TypingEx from '../components/TypingEx';
-import SelectionEx from '../components/SelectionEX';
+import SelectionEx from '../components/SelectionEx';
 import ToFEx from '../components/ToFEx';
 
 
