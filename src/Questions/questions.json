@@ -1,0 +1,77 @@
+{
+    "lecciones": [
+        {
+            "nombre": "Ecuaciones",
+            "dificultad": "Media",
+            "ejercicios": [
+                {
+                    "enunciado_general": "Solve x",
+                    "problema": "3x + 2 = 8",
+                    "respuesta": "2",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Solve x",
+                    "problema": "5x - 3 = 7",
+                    "respuesta": "2",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Select the rigth answer",
+                    "problema": "2x + 4 = 10",
+                    "respuesta": "3",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                    ]
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "3x = 6, x = 2",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                }
+            ]
+        },
+        {
+            "nombre": "Aritmética",
+            "dificultad": "Fácil",
+            "ejercicios": [
+                {
+                    "enunciado_general": "Find the solution",
+                    "problema": "2 + (2 * 15)",
+                    "respuesta": "32",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Find the solution",
+                    "problema": "3 * ( 5 + 4/2 )",
+                    "respuesta": "21",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Select the rigth answer",
+                    "problema": "(2 + 2 * 2)/2",
+                    "respuesta": "3",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "5",
+                        "3",
+                        "8",
+                        "10"
+                    ]
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "12^3 = 12 + 12 + 12",
+                    "respuesta": "false",
+                    "tipo_ejercicio": "verdadero_falso"
+                }
+
+            ]
+        }
+    ]
+}
