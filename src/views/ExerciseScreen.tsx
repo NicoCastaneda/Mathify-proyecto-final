@@ -6,6 +6,8 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { AppContext } from '../context/AppContext';
+import { doc, updateDoc } from 'firebase/firestore/lite';
+import { dbInstance } from '../../firebase-config';
 
 type ExerciseScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Exercise'>;
 
@@ -15,6 +17,13 @@ export default function ExerciseScreen() {
     const navigation = useNavigation<ExerciseScreenNavigationProp>();
     const [shouldNavigate, setShouldNavigate] = useState(false);
     const equation = "10x+8=2";
+
+    const updateFirestore = async () => {
+        await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
+            clues: perfil.clues-1
+        })
+    };
+
 
     const spendClue = () => {
         setPerfil(prevPerfil => ({
@@ -71,7 +80,10 @@ export default function ExerciseScreen() {
             <View style={{ flex: 1 }}>
                 <TouchableOpacity
                     style={styles.getClue}
-                    onPress={() => handlePress()}
+                    onPress={() => {
+                        handlePress()
+                        updateFirestore()
+                    }}
                 >
                     <LinearGradient
                         colors={["#1F2B65", "#00C2FF"]}

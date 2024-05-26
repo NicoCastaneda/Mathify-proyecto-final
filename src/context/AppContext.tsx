@@ -15,8 +15,9 @@ export const ContextProvider = ({ children }) => {
     const getInfo = async () => {
       try {
         const value = await AsyncStorage.getItem("perfil");
-        console.log(value);
-        if (value !== null) {
+        console.log("Último perfil guardado: ",value);
+        var perfil: user = JSON.parse(value)
+        if (perfil != null) {
           console.log("Setting user...")
           setPerfil(JSON.parse(value));
         }

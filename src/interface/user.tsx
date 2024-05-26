@@ -1,4 +1,5 @@
 export interface user{
+    profileID: string,
     nombre: string,
     email: string,
     foto: string,

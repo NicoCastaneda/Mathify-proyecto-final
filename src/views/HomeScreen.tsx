@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet,ScrollView, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import { AppContext } from "../context/AppContext";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function HomeScreen({ navigation }) {
   const { perfil, setPerfil } = useContext(AppContext)
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -17,7 +18,7 @@ export default function HomeScreen({ navigation }) {
 
       <View style={{ marginTop: 260 }}></View>
       <View style={{position: "absolute"}}>
-        <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop: 100, marginLeft: 17, width: 400}}>Hi, {perfil.clues}!</Text>
+        <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop: 100, marginLeft: 17, width: 400}}>Hi, {perfil.nombre}!</Text>
         <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop:3, marginLeft: 17, width: 250}}>Start a new challenge or continue one you have already started</Text>
       </View>
       <View style={{marginHorizontal: "5%"}}>

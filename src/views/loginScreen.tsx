@@ -12,8 +12,10 @@ import { addDoc, collection, getDocs } from "firebase/firestore/lite";
 
 export default function LoginScreen({ navigation }) {
   const { perfil, setPerfil} = useContext(AppContext);
+  var found: user = {} as user
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [docID, setDocID] = useState("")
 
   const [modalVisible, setModalVisible] = useState(false);
   const [newName, setNewName] = useState('')
@@ -21,12 +23,17 @@ export default function LoginScreen({ navigation }) {
   const [newPassword, setNewPassword] = useState('');
 
   useEffect(() => {
-    console.log(perfil)
     if (perfil.email != null) {
       navigation.navigate("Home");
     }
-    else navigation.navigate("Login");
+    else {
+      navigation.navigate("Login")
+    }
   },[perfil]);
+
+  useEffect(()=>{
+    console.log("Found Updated: ",found)
+  },[found])
 
   GoogleSignin.configure({
     webClientId:
@@ -41,14 +48,13 @@ export default function LoginScreen({ navigation }) {
   const getFromFirebase = async (email:string)=> {
     const querySnapshot = await getDocs(collection(dbInstance, "perfiles"))
     querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-      var profile = {...doc.data} as user
+      var profile = {profileID: doc.id, ...doc.data()} as user
+      console.log(profile.email,", ",email)
       if (profile.email == email) {
-        setPerfil(profile)
-        setInfo(profile)
+        console.log("Se encontró el perfil")
+        found = profile
       }
     })
-
   }
 
   const setToFirebase = async (nombre: string, email:string, photo: string) => {
@@ -56,14 +62,30 @@ export default function LoginScreen({ navigation }) {
       if (photo == "") {
         photo = `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0, 1)}&font=bebas`
       }
-      await addDoc(collection(dbInstance,"perfiles"), {
-        nombre: nombre,
-        email: email,
-        foto: photo,
-        achievements: [],
-        lastUnitCoursed: 0,
-        clues: 0
+      console.log("Correo obtenido: ",email)
+      console.log("Revisando la base de datos...")
+      var createUser = true
+      const querySnapshot = await getDocs(collection(dbInstance, "perfiles"))
+      querySnapshot.forEach((doc) => {
+        var profile = {...doc.data} as user
+        console.log("Usuario: ",profile)
+
+        if (profile.email == email) {
+          console.log("Coincidencia!")
+          setDocID(doc.id)
+          createUser = false
+        }
       })
+      if (createUser) {
+        await addDoc(collection(dbInstance,"perfiles"), {
+          nombre: nombre,
+          email: email,
+          foto: photo,
+          achievements: [],
+          lastUnitCoursed: 0,
+          clues: 0
+        })
+      }
     } catch (error) {
       console.log(error)
     }
@@ -82,34 +104,46 @@ export default function LoginScreen({ navigation }) {
 
   const auth = getAuth(app)
 
-  const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, newEmail, newPassword)
-      .then((userCredential) => {
-        console.log("acc created");
-        const user = userCredential.user;
-        setToFirebase(newName, user.email, "");
-        console.log(user);
-        Alert.alert("Tu cuenta ha sido creada correctamente")
-        setNewName('')
-        setNewEmail('')
-        setNewPassword('')
-      })
-      .catch((error) => {
-        Alert.alert(error.message);
-      });
-    setModalVisible(false);
-    setNewEmail("");
-    setNewPassword("");
+  const handleCreateAccount = async () => {
+    await getFromFirebase(newEmail)
+      .then(() => {
+      if (found.email == null) {
+        createUserWithEmailAndPassword(auth, newEmail, newPassword)
+          .then((userCredential) => {
+            console.log("acc created");
+            const user = userCredential.user;
+            setToFirebase(newName, user.email, "");
+            console.log(user);
+            Alert.alert("Tu cuenta ha sido creada correctamente")
+            setNewName('')
+            setNewEmail('')
+            setNewPassword('')
+          })
+          .catch((error) => {
+            Alert.alert(error.message);
+          });
+        setModalVisible(false);
+        setNewName("")
+        setNewEmail("");
+        setNewPassword("");
+      }
+      else Alert.alert("El correo electrónico ya está registrado, intenta iniciar sesión")
+    })
+    .catch((error) => console.log(error))
   };
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         console.log("signed in");
         const user = userCredential.user
         var email = user.email;
         //var foto = `https://fakeimg.pl/400x400/2e82c7/ffffff?text=${nombre.slice(0, 1)}&font=bebas`
-        getFromFirebase(email);
+        await getFromFirebase(email)
+        if (found.email != null) {
+          setPerfil(found);
+          setInfo(found);
+        }
         setEmail("");
         setPassword("");
       })
@@ -123,12 +157,15 @@ export default function LoginScreen({ navigation }) {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      var email = userInfo.user.email;
-      getFromFirebase(email)
-      if (perfil.email == null) {
+      var email = userInfo.user.email
+      await getFromFirebase(email)
+      if (found.email == null) {
+        console.log("Perfil no encontrando, creando perfil nuevo...")
         var foto = userInfo.user.photo;
         var nombre = userInfo.user.name
+        setToFirebase(nombre, email, foto)
         const user: user = {
+          profileID: docID,
           nombre: nombre,
           email: email,
           foto: foto,
@@ -136,9 +173,13 @@ export default function LoginScreen({ navigation }) {
           lastUnitCoursed: 0,
           clues: 0
         }
-        setToFirebase(user.nombre, user.email, user.foto)
         setPerfil(user);
         setInfo(user);
+      }
+      else {
+        console.log("Encontrado: ",found.email)
+        setPerfil(found);
+        setInfo(found);
       }
     } catch (error) {
       switch (error.code) {
@@ -180,7 +221,7 @@ export default function LoginScreen({ navigation }) {
         value={password}
         onChangeText={setPassword}
       />
-      <TouchableOpacity onPress={handleSignIn} style={{ width: "100%" }}>
+      <TouchableOpacity onPress={() =>{getFromFirebase(email);handleSignIn()}} style={{ width: "100%" }}>
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -224,7 +265,7 @@ export default function LoginScreen({ navigation }) {
             <TextInput
               style={styles.input}
               onChangeText={setNewName}
-              value={newEmail}
+              value={newName}
               placeholder="Name"
             />
             <TextInput
@@ -253,7 +294,12 @@ export default function LoginScreen({ navigation }) {
               </LinearGradient>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => setModalVisible(false)} style={{ width: "100%" }}>
+            <TouchableOpacity onPress={() => {
+              setModalVisible(false)
+              setNewEmail("")
+              setNewName("")
+              setNewPassword("")
+              }} style={{ width: "100%" }}>
               <Text style={styles.modalText}>Cancel</Text>
             </TouchableOpacity>
 

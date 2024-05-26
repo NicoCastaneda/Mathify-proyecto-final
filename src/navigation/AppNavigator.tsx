@@ -17,6 +17,7 @@ import AboutScreen from '../views/AboutScreen';
 import SettingsScreen from '../views/SettingsScreen';
 import ExerciseScreen from '../views/ExerciseScreen';
 import GeminiScreen from '../views/GeminiScreen';
+import WaitScreen from '../views/WaitScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,8 +31,10 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Tab.Navigator
         tabBar={() => (showNavBar ? <NavBar /> : null)}
+        initialRouteName='Wait'
       >
         {/*pantalla HOME*/}
+        <Tab.Screen name="Wait" component={WaitScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Home" component={HomeScreen}
           options={{
             headerShown: true,
@@ -133,7 +136,7 @@ const AppNavigator = () => {
         <Tab.Screen name="Map" component={MapScreen}
           options={({ navigation }) => ({
             headerShown: true,
-            title: 'Look for our recommended institution',
+            title: 'Recommended Institutes',
             headerTransparent: true,
             headerTintColor: '#000932',
             headerTitleStyle: { fontWeight: 'bold' },
