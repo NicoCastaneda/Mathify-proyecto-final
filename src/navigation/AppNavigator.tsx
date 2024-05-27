@@ -26,12 +26,13 @@ const AppNavigator = () => {
   const [showNavBar, setShowNavBar] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
+  
   return (
     <NavigationContainer>
       <Tab.Navigator
         tabBar={() => (showNavBar ? <NavBar /> : null)}
         initialRouteName='Wait'
-        backBehavior='history'
+        //backBehavior='history'
       >
         {/*pantalla HOME*/}
         <Tab.Screen name="Wait" component={WaitScreen} options={{ headerShown: false }} />
@@ -251,7 +252,7 @@ const AppNavigator = () => {
                 color="#000932"
                 style={{ marginLeft: 20 }}
                 onPress={() => {
-                  navigation.navigate('Home');
+                  navigation.navigate("Home");
                 }}
               />
             ),

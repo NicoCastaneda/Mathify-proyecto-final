@@ -17,6 +17,12 @@
                     "tipo_ejercicio": "respuesta_abierta"
                 },
                 {
+                    "enunciado_general": "Solve x",
+                    "problema": "2x + 3 = 7",
+                    "respuesta": "2",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
                     "enunciado_general": "Select the rigth answer",
                     "problema": "2x + 4 = 10",
                     "respuesta": "3",
@@ -29,9 +35,46 @@
                     ]
                 },
                 {
+                    "enunciado_general": "Select the rigth answer",
+                    "problema": "3x - 12/2 = 6",
+                    "respuesta": "4",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "2/3",
+                        "12",
+                        "4",
+                        "5"
+                    ]
+                },
+                {
+                    "enunciado_general": "Select the rigth answer",
+                    "problema": "2x + (3 * 18/6) = 7",
+                    "respuesta": "-1",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "-1",
+                        "1",
+                        "9",
+                        "-9"
+                    ]
+
+                },
+                {
                     "enunciado_general": "True or False",
                     "problema": "3x = 6, x = 2",
                     "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "2x = 6, x = 3",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "3x^3 = 3x + 3x + 3x",
+                    "respuesta": "false",
                     "tipo_ejercicio": "verdadero_falso"
                 }
             ]

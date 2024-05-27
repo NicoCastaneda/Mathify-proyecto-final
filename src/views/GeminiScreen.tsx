@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ChatBubble } from '../components/ChatBubble';
@@ -104,6 +104,7 @@ export default function GeminiScreen() {
                 </View>
             )}
             {error && <Text style={styles.error}>{error}</Text>}
+            
         </View>
     );
 }
