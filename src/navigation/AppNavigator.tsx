@@ -206,7 +206,7 @@ const AppNavigator = () => {
         <Tab.Screen name="Exercise" component={ExerciseScreen}
           options={({ navigation }) => ({
             headerShown: true,
-            title: 'EJERCICIOS',
+            title: '',
             headerTransparent: true,
             headerTintColor: '#000932',
             headerTitleStyle: { fontWeight: 'bold' },

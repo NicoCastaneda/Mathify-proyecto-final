@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const ToFEx = ({ enunciado, problema, respuesta, onAnswer }) => {
   const handleAnswer = (selectedAnswer) => {
-    const isCorrect = (selectedAnswer === 'true') === respuesta;
+    const isCorrect = (selectedAnswer === 'true') === (respuesta === 'true');
     onAnswer(isCorrect);
   };
 
@@ -12,7 +12,7 @@ const ToFEx = ({ enunciado, problema, respuesta, onAnswer }) => {
     <View style={styles.exerciseContainer}>
       <Text style={styles.enunciadoGeneral}>{enunciado}</Text>
       <LinearGradient
-        colors={["#C674F1", "#F22E7A"]}
+        colors={["#3e5740", "#573e3e"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={{ padding: 15, alignItems: 'center', borderRadius: 10 }}
@@ -22,22 +22,22 @@ const ToFEx = ({ enunciado, problema, respuesta, onAnswer }) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => handleAnswer('true')}>
           <LinearGradient
-            colors={["#C674F1", "#F22E7A"]}
+            colors={["#3e6b3f", "#32CD32"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={{ padding: 15, alignItems: 'center', borderRadius: 10 }}
           >
-            <Text style={styles.buttonText}>Verdadero</Text>
+            <Text style={styles.buttonText}>true</Text>
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => handleAnswer('false')}>
           <LinearGradient
-            colors={["#C674F1", "#F22E7A"]}
+            colors={["#6b3e3e", "#FF5C5C"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={{ padding: 15, alignItems: 'center', borderRadius: 10 }}
           >
-            <Text style={styles.buttonText}>Falso</Text>
+            <Text style={styles.buttonText}>false</Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

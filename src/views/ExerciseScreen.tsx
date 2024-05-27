@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert, ScrollView } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
@@ -98,28 +98,40 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       if (currentExerciseIndex < exercises.length - 1) {
         setCurrentExerciseIndex(currentExerciseIndex + 1);
       } else {
-        showModal("¡Felicidades!", "Has completado la lección exitosamente.");
+        showModal("¡Felicidades!", "Has completado la lección exitosamente.", true);
       }
     } else {
       if (lives > 1) {
         setLives(lives - 1);
       } else {
-        showModal("¡Derrota!", "Has perdido todas tus vidas.");
+        showModal("¡Derrota!", "Has perdido todas tus vidas.", true);
       }
     }
   };
 
-  const showModal = (title: string, message: string) => {
+  const showModal = (title: string, message: string, reset: boolean) => {
     Alert.alert(title, message, [
       {
         text: "OK",
         onPress: () => {
           setModal2Visible(false);
+          if (reset) {
+            resetExerciseState();
+          }
           navigation.navigate('Home');
         }
       }
     ]);
     setModal2Visible(true);
+  };
+
+  const resetExerciseState = () => {
+    setCurrentExerciseIndex(0);
+    setLives(2);
+    if (leccion && leccion.ejercicios) {
+      const selectedExercises = leccion.ejercicios.sort(() => 0.5 - Math.random()).slice(0, 5);
+      setExercises(selectedExercises);
+    }
   };
 
   const renderExercise = () => {
@@ -156,8 +168,12 @@ export default function ExerciseScreen({ route, navigation }: Props) {
     }
   }, [shouldNavigate, navigation]);
 
+  useEffect(() => {
+    resetExerciseState();
+  }, [route.params]);
+
   return (
-    <View style={styles.container}>
+    <ScrollView keyboardShouldPersistTaps='never' contentContainerStyle={styles.container}>
       <LinearGradient
         colors={['#ffffff', '#4B9EFF']}
         start={{ x: 0, y: 0 }}
@@ -166,13 +182,13 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       />
       <Text style={styles.title}>{leccion ? leccion.nombre : 'Cargando...'}</Text>
       <View style={styles.clues}>
+        <Text style={styles.getClueText2}>Ejercicio {currentExerciseIndex + 1}/{exercises.length}</Text>
+        <Text style={styles.getClueText2}>{lives}</Text>
+        <MaterialCommunityIcons name="heart" size={30} color='red' />
         <Text style={styles.getClueText2}>{perfil.clues}</Text>
         <MaterialCommunityIcons name="lightbulb-on" size={30} color='black' />
       </View>
-      <View style={styles.clues}>
-        <Text style={styles.getClueText2}>Vidas: {lives}</Text>
-        <MaterialCommunityIcons name="heart" size={30} color='red' />
-      </View>
+      <View style={styles.clues} />
 
       <View style={styles.exerciseContainer}>
         {renderExercise()}
@@ -212,7 +228,7 @@ export default function ExerciseScreen({ route, navigation }: Props) {
           <Text>Close</Text>
         </TouchableOpacity>
       </Modal>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -223,15 +239,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   exerciseContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: -100,
   },
   getClue: {
     flexDirection: 'row',
     gap: 20,
     position: 'absolute',
-    bottom: 20,
+    bottom:20,
     left: '15%',
     right: '15%',
     height: 50,
@@ -274,5 +290,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: 20,
     marginTop: 30,
+    marginBottom: 10,
   }
 });
+

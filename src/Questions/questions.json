@@ -1,13 +1,13 @@
 {
     "lecciones": [
         {
-            "nombre": "Ecuaciones",
+            "nombre": "Equations",
             "dificultad": "Media",
             "ejercicios": [
                 {
                     "enunciado_general": "Solve x",
-                    "problema": "3x + 2 = 8",
-                    "respuesta": "2",
+                    "problema": "3x + 5x = 32",
+                    "respuesta": "4",
                     "tipo_ejercicio": "respuesta_abierta"
                 },
                 {
@@ -18,24 +18,24 @@
                 },
                 {
                     "enunciado_general": "Solve x",
-                    "problema": "2x + 3 = 7",
-                    "respuesta": "2",
+                    "problema": "2x + 3x(2) = 8",
+                    "respuesta": "1",
                     "tipo_ejercicio": "respuesta_abierta"
                 },
                 {
-                    "enunciado_general": "Select the rigth answer",
-                    "problema": "2x + 4 = 10",
-                    "respuesta": "3",
+                    "enunciado_general": "Select the right answer",
+                    "problema": "12 - 10x + 18 = -20",
+                    "respuesta": "5",
                     "tipo_ejercicio": "seleccion_multiple",
                     "opciones": [
-                        "1",
-                        "2",
-                        "3",
+                        "-2",
+                        "5",
+                        "8",
                         "4"
                     ]
                 },
                 {
-                    "enunciado_general": "Select the rigth answer",
+                    "enunciado_general": "Select the right answer",
                     "problema": "3x - 12/2 = 6",
                     "respuesta": "4",
                     "tipo_ejercicio": "seleccion_multiple",
@@ -47,7 +47,7 @@
                     ]
                 },
                 {
-                    "enunciado_general": "Select the rigth answer",
+                    "enunciado_general": "Select the right answer",
                     "problema": "2x + (3 * 18/6) = 7",
                     "respuesta": "-1",
                     "tipo_ejercicio": "seleccion_multiple",
@@ -57,7 +57,6 @@
                         "9",
                         "-9"
                     ]
-
                 },
                 {
                     "enunciado_general": "True or False",
@@ -80,7 +79,7 @@
             ]
         },
         {
-            "nombre": "Aritmética",
+            "nombre": "Arithmetic",
             "dificultad": "Fácil",
             "ejercicios": [
                 {
@@ -96,7 +95,13 @@
                     "tipo_ejercicio": "respuesta_abierta"
                 },
                 {
-                    "enunciado_general": "Select the rigth answer",
+                    "enunciado_general": "Find the solution",
+                    "problema": "5 * 5(2) + 3",
+                    "respuesta": "53",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Select the right answer",
                     "problema": "(2 + 2 * 2)/2",
                     "respuesta": "3",
                     "tipo_ejercicio": "seleccion_multiple",
@@ -108,12 +113,281 @@
                     ]
                 },
                 {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "3 * 3 + 3/3",
+                    "respuesta": "10",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "3",
+                        "0",
+                        "10",
+                        "7"
+                    ]
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "32 - 5 * 2 / 5",
+                    "respuesta": "30",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "30",
+                        "22/5",
+                        "32",
+                        "12"
+                    ]
+                },
+                {
                     "enunciado_general": "True or False",
                     "problema": "12^3 = 12 + 12 + 12",
                     "respuesta": "false",
                     "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "√81 = 5 + 4",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "4 * 8(2 + 5) = 4 * 16 + 40",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
                 }
-
+            ]
+        },
+        {
+            "nombre": "Fractions",
+            "dificultad": "medio",
+            "ejercicios": [
+                {
+                    "enunciado_general": "Find the solution",
+                    "problema": "2/5 + 3/5",
+                    "respuesta": "1",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Find the solution",
+                    "problema": "3/4 - 1/4",
+                    "respuesta": "1/2",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Find the solution",
+                    "problema": "1/2 * 3/4",
+                    "respuesta": "3/8",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "2/3 + 1/3",
+                    "respuesta": "1",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "1",
+                        "2/3",
+                        "1/3",
+                        "3/2"
+                    ]
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "1/2 * 1/3",
+                    "respuesta": "1/6",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "1/6",
+                        "1/2",
+                        "1/3",
+                        "1"
+                    ]
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "1/4 + 1/4",
+                    "respuesta": "1/2",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "1/2",
+                        "1/4",
+                        "2/4",
+                        "3/4"
+                    ]
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "1/2 = 2/4",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "1/3 = (3/9 + 1/9)",
+                    "respuesta": "false",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "1/4 = 2/8 = 3/16",
+                    "respuesta": "false",
+                    "tipo_ejercicio": "verdadero_falso"
+                }
+            ]
+        },
+        {
+            "nombre": "Logical Thinking",
+            "dificultad": "Alta",
+            "ejercicios": [
+                {
+                    "enunciado_general": "Think and answer",
+                    "problema": "How many times does the digit 1 appear in the numbers from 1 to 100?",
+                    "respuesta": "21",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Think and answer",
+                    "problema": "How much money would you have if you had a dollar for every month of the year which has 28 days?",
+                    "respuesta": "12",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Think and answer",
+                    "problema": "If you have 3 apples and you have to divide them between 2 people, how many apples does each person get?",
+                    "respuesta": "3/2",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "If you pass the person in second place, what place are you in?",
+                    "respuesta": "second",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "third",
+                        "last",
+                        "second",
+                        "first"
+                    ]
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "Martha is 20 years old and her brother is half her age. How old will Martha be when her brother is 35?",
+                    "respuesta": "45",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "40",
+                        "45",
+                        "17",
+                        "50"
+                    ]
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "Every day, a snail climbs 3 feet up a wall, but at night it slides down 2 feet. How many days does it take for the snail to reach the top of a 10-foot wall?",
+                    "respuesta": "8",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "6",
+                        "10",
+                        "5",
+                        "8"
+                    ]
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "5 monkeys eat 5 bananas in 5 minutes. The first minute they have eaten 1 banana.",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "If every plants are green and all trees are plants, are all trees green?",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "A hotel sells 100 rooms on even days and 50 on odd days. At the end of the month, the hotel has sold 3000 rooms.",
+                    "respuesta": "false",
+                    "tipo_ejercicio": "verdadero_falso" 
+                } 
+            ]
+        },
+        {
+            "nombre": "Percentages",
+            "dificultad": "Media",
+            "ejercicios": [
+                {
+                    "enunciado_general": "Find the solution",
+                    "problema": "What is 20% of 50?",
+                    "respuesta": "10",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Find the solution",
+                    "problema": "What is 25% of 80?",
+                    "respuesta": "20",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Find the solution",
+                    "problema": "9 is the 30% of what number?",
+                    "respuesta": "30",
+                    "tipo_ejercicio": "respuesta_abierta"
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "5 is the 100% of what number?",
+                    "respuesta": "5",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "5",
+                        "10",
+                        "15",
+                        "20"
+                    ]
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "What is 50% of 70?",
+                    "respuesta": "35",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "25",
+                        "50",
+                        "35",
+                        "40"
+                    ]
+                },
+                {
+                    "enunciado_general": "Select the right answer",
+                    "problema": "75% of people in a room have a dog. If there are 60 people in the room, how many have a dog?",
+                    "respuesta": "45",
+                    "tipo_ejercicio": "seleccion_multiple",
+                    "opciones": [
+                        "54",
+                        "45",
+                        "36",
+                        "60"
+                    ]
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "If 20% of 100 is 20, then 30% of 100 is 30.",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "If 50% of 5 is 5/2, then 25% of 10 is 5/2.",
+                    "respuesta": "true",
+                    "tipo_ejercicio": "verdadero_falso"
+                },
+                {
+                    "enunciado_general": "True or False",
+                    "problema": "If 75% of women are blonde, then 35% are not blonde.",
+                    "respuesta": "false",
+                    "tipo_ejercicio": "verdadero_falso"
+                }
             ]
         }
     ]
