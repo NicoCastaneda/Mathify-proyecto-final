@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore} from 'firebase/firestore/lite'
+import { getFirestore, collection, getDocs} from 'firebase/firestore/lite'
 import {getStorage, ref, uploadBytesResumable, getDownloadURL, listAll} from 'firebase/storage'
 
 
@@ -11,6 +11,37 @@ export const firebaseConfig = {
   messagingSenderId: "817845370181",
   appId: "1:817845370181:web:f60b49ae1c1f82aafd122c"
 };
+
+export const fetchLecciones = async () => {
+  try {
+    const leccionesCol = collection(dbInstance, 'lecciones');
+    const leccionesSnapshot = await getDocs(leccionesCol);
+    const leccionesList = [];
+
+    for (const doc of leccionesSnapshot.docs) {
+      const leccionData = doc.data();
+      const ejerciciosCol = collection(doc.ref, 'ejercicios');
+      const ejerciciosSnapshot = await getDocs(ejerciciosCol);
+      const ejerciciosList = ejerciciosSnapshot.docs.map(ejercicioDoc => ejercicioDoc.data());
+      
+      // Agregar los ejercicios a los datos de la lección
+      leccionData.ejercicios = ejerciciosList;
+      leccionesList.push(leccionData);
+    }
+
+    console.log("Lecciones con ejercicios:", leccionesList);
+    return leccionesList;
+  } catch (error) {
+    console.error("Error fetching lecciones: ", error);
+    return [];
+  }
+};
+
+
+
+
+
+
 
 const app = initializeApp(firebaseConfig);
 const dbInstance = getFirestore(app);

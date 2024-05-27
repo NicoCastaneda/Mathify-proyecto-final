@@ -19,9 +19,8 @@ import ExerciseScreen from '../views/ExerciseScreen';
 import GeminiScreen from '../views/GeminiScreen';
 import WaitScreen from '../views/WaitScreen';
 
+
 const Tab = createBottomTabNavigator();
-
-
 const AppNavigator = () => {
 
   const [showNavBar, setShowNavBar] = useState(false);
@@ -206,7 +205,7 @@ const AppNavigator = () => {
         <Tab.Screen name="Exercise" component={ExerciseScreen}
           options={({ navigation }) => ({
             headerShown: true,
-            title: '',
+            title: 'EJERCICIOS',
             headerTransparent: true,
             headerTintColor: '#000932',
             headerTitleStyle: { fontWeight: 'bold' },
@@ -252,7 +251,7 @@ const AppNavigator = () => {
                 color="#000932"
                 style={{ marginLeft: 20 }}
                 onPress={() => {
-                  navigation.navigate("Exercise");
+                  navigation.navigate('Exercise');
                 }}
               />
             ),

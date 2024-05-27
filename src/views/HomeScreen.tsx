@@ -1,14 +1,59 @@
-import { View, Text, StyleSheet,ScrollView, TouchableOpacity } from "react-native";
-import React, { useContext, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Button } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import { AppContext } from "../context/AppContext";
 import { LinearGradient } from "expo-linear-gradient";
+import { fetchLecciones } from "../../firebase-config";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-export default function HomeScreen({ navigation }) {
-  const { perfil, setPerfil } = useContext(AppContext)
+type RootStackParamList = {
+  Home: undefined;
+  Exercise: { leccion: Leccion };
+};
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+
+type Leccion = {
+  nombre: string;
+  ejercicios: Exercise[];
+};
+
+type Exercise = {
+  tipo: string;
+  enunciadoGeneral: string;
+  problema: string;
+  respuesta: string;
+  opciones?: string[];
+  correcto?: boolean;
+};
+
+export default function HomeScreen() {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { perfil, setPerfil } = useContext(AppContext);
+  const [lecciones, setLecciones] = useState<Leccion[]>([]);
+
+  useEffect(() => {
+    const loadLecciones = async () => {
+      const data = await fetchLecciones();
+      const lecciones: Leccion[] = data.map(doc => {
+        return {
+          nombre: doc.nombre,
+          ejercicios: doc.ejercicios
+        }
+      });
+      setLecciones(lecciones);
+    };
+    loadLecciones();
+  }, []);
+
+  const handleLeccionPress = (leccion: Leccion) => {
+    console.log("Lección seleccionada:", leccion);
+    navigation.navigate('Exercise', { leccion: leccion });
+  };
 
   return (
     <View style={styles.container}>
+
       <LinearGradient
         colors={['#ffffff', '#4B9EFF']}
         start={{ x: 0, y: 0 }}
@@ -17,30 +62,46 @@ export default function HomeScreen({ navigation }) {
       />
 
       <View style={{ marginTop: 260 }}></View>
-      <View style={{position: "absolute"}}>
-        <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop: 100, marginLeft: 17, width: 400}}>Hi, {perfil.nombre}!</Text>
-        <Text style={{color: "white", fontWeight: "bold", fontSize: 23,marginTop:3, marginLeft: 17, width: 250}}>Start a new challenge or continue one you have already started</Text>
+      <View style={{ position: "absolute" }}>
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 23, marginTop: 100, marginLeft: 17, width: 400 }}>Hi, {perfil.nombre}!</Text>
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 23, marginTop: 3, marginLeft: 17, width: 250 }}>Start a new challenge or continue one you have already started</Text>
       </View>
-      <View style={{marginHorizontal: "5%"}}>
-        <ScrollView style={{height: "60%"}}>
-          <Text style={styles.title}>Continue...</Text>
-          <View style={{flexDirection: "row"}}>
+      <View style={{ marginHorizontal: "5%" }}>
+        <ScrollView style={{ height: "60%" }}>
+          
+        <View>
+          <Text>Lecciones</Text>
+        {lecciones.map((leccion, index) => (
+
+          <Button
+            key={index}
+            title={leccion.nombre}
+            onPress={() => handleLeccionPress(leccion)}
+          />
+        ))}
+      </View>
+
+
+
+      { /*   <Text style={styles.title}>Continue...</Text>
+          <View style={{ flexDirection: "row" }}>
             <View>
-              <TouchableOpacity style={styles.activity_placeholder} onPress={() => navigation.navigate('Exercise')}>
-              <LinearGradient
-                colors={['#C674F1', '#F22E7A']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: -1 }}
-                style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', borderRadius: 20 }}
-              />
-              <Text style={styles.desc_placeholder}>Equations</Text>
-              <Text style={styles.desc_placeholder}>57%</Text>
+
+              <TouchableOpacity style={styles.activity_placeholder} onPress={(}>
+                <LinearGradient
+                  colors={['#C674F1', '#F22E7A']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: -1 }}
+                  style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', borderRadius: 20 }}
+                />
+                <Text style={styles.desc_placeholder}>Equations</Text>
+                <Text style={styles.desc_placeholder}>57%</Text>
               </TouchableOpacity>
             </View>
             <Text style={styles.difficulty_placeholder}>med. 2.9/5</Text>
-          </View>
+          </View>{
           <Text style={styles.title}>New Challenges</Text>
-          <View style={{flexDirection: "row"}}>
+          <View style={{ flexDirection: "row" }}>
             <View style={styles.activity_placeholder}>
               <LinearGradient
                 colors={['#000932', '#00C2FF']}
@@ -53,7 +114,7 @@ export default function HomeScreen({ navigation }) {
             </View>
             <Text style={styles.difficulty_placeholder}>med. 2.2/5</Text>
           </View>
-          <View style={{flexDirection: "row"}}>
+          <View style={{ flexDirection: "row" }}>
             <View style={styles.activity_placeholder}>
               <LinearGradient
                 colors={['#000932', '#00C2FF']}
@@ -66,7 +127,7 @@ export default function HomeScreen({ navigation }) {
             </View>
             <Text style={styles.difficulty_placeholder}>med. 4/5</Text>
           </View>
-          <View style={{flexDirection: "row"}}>
+          <View style={{ flexDirection: "row" }}>
             <View style={styles.activity_placeholder}>
               <LinearGradient
                 colors={['#000932', '#00C2FF']}
@@ -78,19 +139,17 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.desc_placeholder}>Functions</Text>
             </View>
             <Text style={styles.difficulty_placeholder}>med. 4.5/5</Text>
-          </View>
+          </View>*/}
         </ScrollView>
-        <View style={styles.activity_placeholder} />
+        <View style={styles.activity_placeholder} /> 
       </View>
       <View style={styles.navbar}><NavBar /></View>
     </View>
-
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-
     flex: 1,
     backgroundColor: 'white',
   },
@@ -123,4 +182,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 27,
   }
-})
+});

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 
-export default function SelectionEx() {
+export default function SelectionEx({ enunciado, problema, opciones, respuesta, onAnswer }) {
     const [selectedButton, setSelectedButton] = useState<number | null>(null);
 
     return (

@@ -1,26 +1,34 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Ionicons } from 'react-native-vector-icons'
 
-export default function TypingEx() {
+export default function TypingEx({ enunciado, problema, respuesta, onAnswer }) {
+    
+    const [userInput, setUserInput] = useState('');
+
+    const handleCheck = () => {
+      const isCorrect = userInput.trim() === respuesta;
+      onAnswer(isCorrect);
+    };
+
     return (
         <View style={styles.excersiceContainer}>
-            <Text style={styles.enunciadoGeneral}>ENUNCIADO GENERAL</Text>
+            <Text style={styles.enunciadoGeneral}>{enunciado}</Text>
             <LinearGradient
                 colors={["#C674F1", "#F22E7A"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={{ padding: 15, alignItems: 'center', borderRadius: 10 }}
             >
-                <Text style={styles.problema}>PROBLEMA</Text>
+                <Text style={styles.problema}>{problema}</Text>
             </LinearGradient>
 
             <View style={styles.inputContainer}>
                 <TextInput style={styles.input} placeholder="Your answer here..." placeholderTextColor="#aaa" />
             </View>
 
-            <TouchableOpacity style={styles.check}>
+            <TouchableOpacity style={styles.check} onPress={handleCheck}>
                 <LinearGradient
                     colors={["#C674F1", "#F22E7A"]}
                     start={{ x: 0, y: 0 }}
