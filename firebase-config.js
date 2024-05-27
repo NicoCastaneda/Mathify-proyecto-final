@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore} from 'firebase/firestore/lite'
+import { getFirestore, collection, getDocs} from 'firebase/firestore/lite'
 import {getStorage, ref, uploadBytesResumable, getDownloadURL, listAll} from 'firebase/storage'
 
 
