@@ -28,12 +28,12 @@ type RootStackParamList = {
   Gemini: { equation: string };
 };
 
-type Leccion = {
+export type Leccion = {
   nombre: string;
   ejercicios: Exercise[];
 };
 
-type Exercise = {
+export type Exercise = {
   tipo_ejercicio: string;
   enunciado_general: string;
   problema: string;
@@ -43,11 +43,10 @@ type Exercise = {
 };
 
 export default function ExerciseScreen({ route, navigation }: Props) {
-  const { perfil, setPerfil } = useContext(AppContext);
+  const { perfil, setPerfil, leccion: leccionGlobal , setHelp} = useContext(AppContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [shouldNavigate, setShouldNavigate] = useState(false);
-  const equation = "2x+8=2";
-  const { leccion } = route.params;
+  var equation = "2x+8=2";
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [lives, setLives] = useState(2);
@@ -68,7 +67,8 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
         clues: perfil.clues - 1
       });
-      setShouldNavigate(true);
+      setHelp(exercises[currentExerciseIndex])
+      navigation.navigate("Gemini")
     }
   };
 
@@ -93,12 +93,21 @@ export default function ExerciseScreen({ route, navigation }: Props) {
     }
   };
 
-  const handleAnswer = (isCorrect: boolean) => {
+  const handleAnswer = async (isCorrect: boolean) => {
     if (isCorrect) {
       if (currentExerciseIndex < exercises.length - 1) {
         setCurrentExerciseIndex(currentExerciseIndex + 1);
       } else {
         showModal("¡Felicidades!", "Has completado la lección exitosamente.", true);
+        var newAchieve = perfil.achievements
+        if (newAchieve.indexOf(leccionGlobal.nombre) != null) {
+          newAchieve.push(leccionGlobal.nombre)
+          setPerfil({...perfil, achievements: newAchieve})
+          await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
+            achievements: newAchieve
+          });
+          setInfo({...perfil, achievements: newAchieve})
+        }
       }
     } else {
       if (lives > 1) {
@@ -125,11 +134,13 @@ export default function ExerciseScreen({ route, navigation }: Props) {
     setModal2Visible(true);
   };
 
-  const resetExerciseState = () => {
+  const resetExerciseState = async () => {
+    console.log("Reseteo")
     setCurrentExerciseIndex(0);
+    setExercises([])
     setLives(2);
-    if (leccion && leccion.ejercicios) {
-      const selectedExercises = leccion.ejercicios.sort(() => 0.5 - Math.random()).slice(0, 5);
+    if (leccionGlobal && leccionGlobal.ejercicios) {
+      const selectedExercises = leccionGlobal.ejercicios.sort(() => 0.5 - Math.random()).slice(0, 5);
       setExercises(selectedExercises);
     }
   };
@@ -152,24 +163,17 @@ export default function ExerciseScreen({ route, navigation }: Props) {
   };
 
   useEffect(() => {
-    if (leccion && leccion.ejercicios) {
-      const selectedExercises = leccion.ejercicios.sort(() => 0.5 - Math.random()).slice(0, 5);
+    console.log("En una leccion")
+    resetExerciseState();
+    console.log(leccionGlobal)
+    if (leccionGlobal && leccionGlobal.ejercicios) {
+      const selectedExercises = leccionGlobal.ejercicios.sort(() => 0.5 - Math.random()).slice(0, 5);
       setExercises(selectedExercises);
     }
-  }, [leccion]);
+  }, [leccionGlobal]);
 
   useEffect(() => {
-    if (shouldNavigate) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Gemini', params: { equation } }],
-      });
-      setShouldNavigate(false);
-    }
-  }, [shouldNavigate, navigation]);
-
-  useEffect(() => {
-    resetExerciseState();
+    
   }, [route.params]);
 
   return (
@@ -180,7 +184,7 @@ export default function ExerciseScreen({ route, navigation }: Props) {
         end={{ x: 0, y: 1 }}
         style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '20%', borderRadius: 20 }}
       />
-      <Text style={styles.title}>{leccion ? leccion.nombre : 'Cargando...'}</Text>
+      <Text style={styles.title}>{leccionGlobal ? leccionGlobal.nombre : 'Cargando...'}</Text>
       <View style={styles.clues}>
         <Text style={styles.getClueText2}>Ejercicio {currentExerciseIndex + 1}/{exercises.length}</Text>
         <Text style={styles.getClueText2}>{lives}</Text>

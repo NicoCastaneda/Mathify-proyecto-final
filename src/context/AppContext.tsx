@@ -2,16 +2,23 @@ import { createContext, useEffect, useState } from "react";
 import { Alert } from "react-native"
 import { user } from "../interface/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Exercise, Leccion } from "../views/ExerciseScreen";
 
 interface content {
     perfil: user;
     setPerfil: React.Dispatch<React.SetStateAction<user>>
+    leccion: Leccion
+    setLeccion: React.Dispatch<React.SetStateAction<Leccion>>
+    help: Exercise
+    setHelp: React.Dispatch<React.SetStateAction<Exercise>>
 }
 
 export const AppContext = createContext({} as content);
 
 export const ContextProvider = ({ children }) => {
     const [perfil,setPerfil] = useState({} as user)
+    const [leccion, setLeccion] = useState({} as Leccion)
+    const [help, setHelp] = useState({} as Exercise)
     const getInfo = async () => {
       try {
         const value = await AsyncStorage.getItem("perfil");
@@ -29,5 +36,5 @@ export const ContextProvider = ({ children }) => {
     useEffect(() => { 
       getInfo();
     },[])
-    return <AppContext.Provider value={{perfil, setPerfil}}>{children}</AppContext.Provider>;
+    return <AppContext.Provider value={{perfil, setPerfil, leccion: leccion, setLeccion: setLeccion, help, setHelp}}>{children}</AppContext.Provider>;
 };

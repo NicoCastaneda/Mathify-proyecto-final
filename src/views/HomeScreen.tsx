@@ -6,6 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { fetchLecciones } from "../../firebase-config";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { Leccion } from "./ExerciseScreen";
 
 type RootStackParamList = {
   Home: undefined;
@@ -13,23 +14,10 @@ type RootStackParamList = {
 };
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
-type Leccion = {
-  nombre: string;
-  ejercicios: Exercise[];
-};
-
-type Exercise = {
-  tipo: string;
-  enunciadoGeneral: string;
-  problema: string;
-  respuesta: string;
-  opciones?: string[];
-  correcto?: boolean;
-};
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { perfil, setPerfil } = useContext(AppContext);
+  const { perfil, setPerfil, setLeccion: setLeccionGlobal } = useContext(AppContext);
   const [lecciones, setLecciones] = useState<Leccion[]>([]);
 
   useEffect(() => {
@@ -45,6 +33,13 @@ export default function HomeScreen() {
     };
     loadLecciones();
   }, []);
+
+  useEffect(()=>{
+    if (navigation.isFocused()) {
+      setLeccionGlobal({} as Leccion)
+    }
+
+  },[navigation.isFocused()])
 
   const handleLeccionPress = (leccion: Leccion) => {
     console.log("Lección seleccionada:", leccion);
@@ -76,7 +71,10 @@ export default function HomeScreen() {
           <Button
             key={index}
             title={leccion.nombre}
-            onPress={() => handleLeccionPress(leccion)}
+            onPress={() => {
+              handleLeccionPress(leccion)
+              setLeccionGlobal(leccion)
+            }}
           />
         ))}
       </View>

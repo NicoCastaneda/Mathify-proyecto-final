@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ChatBubble } from '../components/ChatBubble';
+import { AppContext } from "../context/AppContext";
 
 type RootStackParamList = {
     Exercise: undefined;
@@ -21,8 +22,8 @@ interface ChatMessage {
 export default function GeminiScreen() {
     const navigation = useNavigation<GeminiScreenNavigationProp>();
     const route = useRoute<GeminiScreenRouteProp>();
-    const { equation } = route.params;
-
+    const { help } = useContext(AppContext)
+    const equation = help.problema
     const [chat, setChat] = useState<ChatMessage[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -37,7 +38,7 @@ export default function GeminiScreen() {
         return unsubscribe;
     }, [navigation, equation]);
 
-    const instruccion = "Step by step solution: \n\n";
+    const instruccion = `${help.enunciado_general}: \n\n`;
     const handleUserInput = async (userInput: string) => {
         const userInputWithInstruction = instruccion + userInput;
         const updatedChatWithUserInput: ChatMessage = {
