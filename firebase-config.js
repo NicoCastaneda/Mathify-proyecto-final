@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs} from 'firebase/firestore/lite'
+import { getFirestore} from 'firebase/firestore/lite'
 import {getStorage, ref, uploadBytesResumable, getDownloadURL, listAll} from 'firebase/storage'
 
 
@@ -47,26 +47,22 @@ const app = initializeApp(firebaseConfig);
 const dbInstance = getFirestore(app);
 const imageStorage = getStorage(app);
 
-const listFiles = async () => {
-  const storage = getStorage(app);
-
-  // Create a reference under which you want to list
-  const listRef = ref(storage, "images");
-
-  // Find all the prefixes and items.
-  const listResp = await listAll(listRef);
-  return listResp.items;
-};
-
-const uploadToFirebase = async (uri, name, onProgress) => {
+const uploadToFirebase = async (old,uri, name, onProgress) => {
+  console.log("Old image: ",old)
   const fetchResponse = await fetch(uri);
   const theBlob = await fetchResponse.blob();
 
   const imageRef = ref(getStorage(app), `images/${name}`);
+  const desertRef = ref(getStorage(app), `images/${old}`)
 
   const uploadTask = uploadBytesResumable(imageRef, theBlob);
 
   return new Promise((resolve, reject) => {
+    try {
+      deleteObject(desertRef).then(console.log("Old Deleted Succesfully"))
+    } catch (error) {
+      console.log(error)
+    }
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -90,5 +86,5 @@ const uploadToFirebase = async (uri, name, onProgress) => {
   });
 };
 
-export {dbInstance, imageStorage, uploadToFirebase, listFiles}
+export {dbInstance, imageStorage, uploadToFirebase}
 export default app;

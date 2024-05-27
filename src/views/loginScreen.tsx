@@ -83,7 +83,7 @@ export default function LoginScreen({ navigation }) {
           foto: photo,
           achievements: [],
           lastUnitCoursed: 0,
-          clues: 0
+          clues: 50
         })
       }
     } catch (error) {
@@ -171,7 +171,7 @@ export default function LoginScreen({ navigation }) {
           foto: foto,
           achievements: [],
           lastUnitCoursed: 0,
-          clues: 0
+          clues: 50
         }
         setPerfil(user);
         setInfo(user);
