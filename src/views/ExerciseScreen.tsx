@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
@@ -8,6 +8,8 @@ import { AppContext } from '../context/AppContext';
 import { doc, updateDoc } from 'firebase/firestore/lite';
 import { dbInstance } from '../../firebase-config';
 import { StackNavigationProp } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {user} from '../interface/user'
 
 type ExerciseScreenRouteProp = RouteProp<RootStackParamList, 'Exercise'>;
 
@@ -43,6 +45,16 @@ export default function ExerciseScreen({ route, navigation }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
  // const navigation = useNavigation();
 
+ const setInfo = async (user: user) => {
+  try {
+    await AsyncStorage.setItem("perfil", JSON.stringify(user))
+    console.log("Guardando...")
+  } catch (error) {
+    Alert.alert("Ha habido un error")
+    console.log(error)
+  }
+} 
+
   const [shouldNavigate, setShouldNavigate] = useState(false);
   const equation = "2x+8=2";
   const {leccion} = route.params;
@@ -62,6 +74,8 @@ export default function ExerciseScreen({ route, navigation }: Props) {
         ...prevPerfil,
         clues: prevPerfil.clues - 1
       }));
+      var user = {...perfil, clues: perfil.clues-1} as user
+      setInfo(user)
       await updateFirestore();
     }
   }

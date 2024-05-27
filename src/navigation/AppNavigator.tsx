@@ -251,7 +251,7 @@ const AppNavigator = () => {
                 color="#000932"
                 style={{ marginLeft: 20 }}
                 onPress={() => {
-                  navigation.navigate('Exercise');
+                  navigation.navigate('Home');
                 }}
               />
             ),

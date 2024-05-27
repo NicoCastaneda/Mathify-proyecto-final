@@ -17,7 +17,7 @@ export default function WaitScreen({ navigation }: any) {
         navigation.navigate("Login")
       }
     })
-  }, [perfil]);
+  }, [perfil.email]);
   return (
     <View style={{
       flex: 1,

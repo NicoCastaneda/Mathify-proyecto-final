@@ -29,7 +29,7 @@ export default function LoginScreen({ navigation }) {
     else {
       navigation.navigate("Login")
     }
-  },[perfil]);
+  },[perfil.email]);
 
   useEffect(()=>{
     console.log("Found Updated: ",found)
