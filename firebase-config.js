@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs} from 'firebase/firestore/lite'
-import {getStorage, ref, uploadBytesResumable, getDownloadURL, listAll} from 'firebase/storage'
+import {getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject} from 'firebase/storage'
 
 
 export const firebaseConfig = {
