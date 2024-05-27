@@ -27,7 +27,11 @@ const uploadToFirebase = async (old,uri, name, onProgress) => {
   const uploadTask = uploadBytesResumable(imageRef, theBlob);
 
   return new Promise((resolve, reject) => {
-    deleteObject(desertRef).then(console.log("Old Deleted Succesfully"))
+    try {
+      deleteObject(desertRef).then(console.log("Old Deleted Succesfully"))
+    } catch (error) {
+      console.log(error)
+    }
     uploadTask.on(
       "state_changed",
       (snapshot) => {
