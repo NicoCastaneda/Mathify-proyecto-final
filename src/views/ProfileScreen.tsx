@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   Modal,
   ActivityIndicator,
-  Button,
-  AppState,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import NavBar from "../components/NavBar";
@@ -25,8 +23,10 @@ import { dbInstance, uploadToFirebase } from "../../firebase-config";
 import { and, doc, updateDoc } from "firebase/firestore/lite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { user } from "../interface/user";
+import { useNavigation } from '@react-navigation/native';
 
-const ProfileScreen = (navigation) => {
+const ProfileScreen = () => {
+  const navigation = useNavigation();
   const { perfil, setPerfil } = useContext(AppContext);
   const [permission, requestPermission] = useCameraPermissions();
   const [fotoUri, setFotoUri] = useState("");
@@ -79,7 +79,7 @@ const ProfileScreen = (navigation) => {
         const fileName = uri.split("/").pop();
         var old = fotoPerfil
           .split("/")
-          [fotoPerfil.split("/").length - 1].split("%2F")[
+        [fotoPerfil.split("/").length - 1].split("%2F")[
           fotoPerfil.split("/")[fotoPerfil.split("/").length - 1].split("%2F")
             .length - 1
         ];
@@ -130,6 +130,7 @@ const ProfileScreen = (navigation) => {
           <Text
             style={{
               marginTop: 122,
+              marginBottom: 15,
               marginLeft: 20,
               fontSize: 24,
               fontWeight: "bold",
@@ -156,15 +157,42 @@ const ProfileScreen = (navigation) => {
             >
               {perfil.clues}
             </Text>
-            <Text style={{ fontSize: 23,
-                color: "white",
-                fontWeight: "bold",}}>           Exp: 587</Text>
+            <TouchableOpacity
+              style={styles.roundedButton}
+              {/* @ts-ignore */...navigation}
+              onPress={() => navigation.navigate('Settings')}
+            >
+              <Text style={styles.buttonText}>Get more clues</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
+
+      <View >
+        <TouchableOpacity
+          style={styles.getClue}
+          onPress={() => {
+          }}
+        >
+          <LinearGradient
+            colors={["#1F2B65", "#00C2FF"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: -1 }}
+            style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', borderRadius: 10 }}
+          />
+          <Text style={styles.getClueText}>Exp                                  1258</Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={{ marginHorizontal: "5%" }}>
         <Text style={styles.title}>Statistics</Text>
-        <Text style={styles.title}>Exp</Text>
+        {perfil.achievements.map((achievement, index) => (
+          <View key={index} style={styles.achievementBox}>
+            <Text style={styles.title2}>{achievement}</Text>
+            <Text style={styles.title2}>100%</Text>
+          </View>
+        ))}
+
       </View>
 
       <View style={styles.navbar}>
@@ -222,6 +250,13 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 21,
+    marginBottom: 10,
+    marginTop: 20,
+  },
+  title2: {
+    fontWeight: "semibold",
+    fontSize: 18,
+    color: "white",
   },
   editButton: {
     position: "absolute",
@@ -235,6 +270,71 @@ const styles = StyleSheet.create({
     borderRadius: 200,
     borderWidth: 2,
     borderColor: "#4B9EFF",
+  },
+  achievementBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+    margin: 5,
+    backgroundColor: '#000932',
+    borderRadius: 10,
+  },
+  exp: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+    margin: 5,
+    backgroundColor: '#000932',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  title3: {
+    fontWeight: "bold",
+    fontSize: 21,
+    marginBottom: 10,
+    color: 'white',
+    padding: 15,
+  },
+  getClue: {
+
+    width: 320,
+    height: 100,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 1,
+    elevation: 8,
+  },
+  getClueText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+    textAlignVertical: 'center',
+  },
+  roundedButton: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 4,
+    marginHorizontal: 15,
+    borderColor: 'black',
+    borderWidth: 1,
+
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#000',
+    fontStyle: 'italic',
   },
 });
 

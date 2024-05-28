@@ -69,37 +69,16 @@ const AppNavigator = () => {
           }}
         />
 
-        {/*pantalla STATS*/}
+        {/*pantalla COMMUNITY*/}
         <Tab.Screen
           name="Stats"
           component={StatsScreen}
           options={({ navigation }) => ({
             headerShown: true,
-            title: "Stats",
+            title: "   Community",
             headerTransparent: true,
-            headerTintColor: "#000932",
+            headerTintColor: "#fff",
             headerTitleStyle: { fontWeight: "bold" },
-
-            headerLeft: () => (
-              <Ionicons
-                name="arrow-back"
-                size={24}
-                color="#000932"
-                style={{ marginLeft: 20 }}
-                onPress={() => navigation.goBack()}
-              />
-            ),
-            headerRight: () => (
-              <Ionicons
-                name="menu"
-                size={30}
-                color="#000932"
-                style={{ marginRight: 20 }}
-                onPress={() => {
-                  setModalVisible(true);
-                }}
-              />
-            ),
           })}
         />
 

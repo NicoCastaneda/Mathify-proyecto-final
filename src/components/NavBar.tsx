@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { MaterialIcons, Entypo, Ionicons } from 'react-native-vector-icons';
+import { MaterialCommunityIcons, Entypo, Ionicons } from 'react-native-vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function NavBar(navigation) {
@@ -33,7 +33,7 @@ export default function NavBar(navigation) {
     >
       <View style={styles.viewContainer}>
         <TouchableOpacity onPress={navigateToStats}>
-          <MaterialIcons name="leaderboard" size={30} color={isStatsFocused ? '#3C1FB2' : '#000932'} />
+          <MaterialCommunityIcons name="account-group" size={30} color={isStatsFocused ? '#3C1FB2' : '#000932'} />
         </TouchableOpacity>
         <TouchableOpacity onPress={navigateToHome}>
           <Entypo name="graduation-cap" size={30} color={isHomeFocused ? '#3C1FB2' : '#000932'} />
