@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase/app';
+import { initializeAuth , getReactNativePersistence} from 'firebase/auth';
 import { getFirestore, collection, getDocs} from 'firebase/firestore/lite'
 import {getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject} from 'firebase/storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export const firebaseConfig = {
@@ -44,6 +46,7 @@ export const fetchLecciones = async () => {
 
 
 const app = initializeApp(firebaseConfig);
+const auth = initializeAuth(app, {persistence: getReactNativePersistence(AsyncStorage)})
 const dbInstance = getFirestore(app);
 const imageStorage = getStorage(app);
 

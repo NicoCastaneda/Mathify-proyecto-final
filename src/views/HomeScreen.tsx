@@ -70,11 +70,11 @@ export default function HomeScreen() {
         <Text style={{ color: "white", fontWeight: "bold", fontSize: 23, marginTop: 3, marginLeft: 17, width: 250 }}>Start a new challenge or continue one you have already started</Text>
       </View>
       <View style={{ marginHorizontal: "5%" }}>
-        <ScrollView style={{ height: "60%" }}>
+        <ScrollView style={{ height: "57%" }}>
 
           <ScrollView style={{ height: "60%" }}>
             <View>
-              <Text style={styles.title}>Available Lessons</Text>
+              <Text style={{...styles.title, marginTop: 0}}>Available Lessons</Text>
               {lecciones.map((leccion, index) => (
                 <TouchableOpacity
                   key={index}

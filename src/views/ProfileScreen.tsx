@@ -180,7 +180,7 @@ const ProfileScreen = () => {
             end={{ x: 1, y: -1 }}
             style={{ position: 'absolute', left: 0, right: 0, top: 0, height: '100%', borderRadius: 10 }}
           />
-          <Text style={styles.getClueText}>Exp                                  1258</Text>
+          <Text style={styles.getClueText}>Exp                                  {perfil.achievements.length*1000}</Text>
         </TouchableOpacity>
       </View>
 
