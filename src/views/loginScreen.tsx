@@ -97,7 +97,7 @@ export default function LoginScreen({ navigation }) {
       await AsyncStorage.setItem("perfil", JSON.stringify(user))
       console.log("Guardando...")
     } catch (error) {
-      Alert.alert("Ha habido un error")
+      Alert.alert("An error has been encountered")
       console.log(error)
     }
   }
@@ -114,7 +114,7 @@ export default function LoginScreen({ navigation }) {
             const user = userCredential.user;
             setToFirebase(newName, user.email, "");
             console.log(user);
-            Alert.alert("Tu cuenta ha sido creada correctamente")
+            Alert.alert("Your account was created successfully!")
             setNewName('')
             setNewEmail('')
             setNewPassword('')
@@ -127,7 +127,7 @@ export default function LoginScreen({ navigation }) {
         setNewEmail("");
         setNewPassword("");
       }
-      else Alert.alert("El correo electrónico ya está registrado, intenta iniciar sesión")
+      else Alert.alert("The Email is already in use, try to Log In!")
     })
     .catch((error) => console.log(error))
   };

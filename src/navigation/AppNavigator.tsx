@@ -244,11 +244,11 @@ const AppNavigator = () => {
                 style={{ marginLeft: 20 }}
                 onPress={() => {
                   Alert.alert(
-                    "¿Seguro que quieres volver al Menú?",
-                    "Se perderá todo tu progreso",
+                    "You want to go bakc to the Main Menu?",
+                    "All progress will be lost",
                     [
                       {
-                        text: "Cancelar",
+                        text: "Cancel",
                         onPress: () => {
                         }
                       },

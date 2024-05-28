@@ -61,7 +61,7 @@ const ProfileScreen = (navigation) => {
       await AsyncStorage.setItem("perfil", JSON.stringify(user));
       console.log("Guardando...");
     } catch (error) {
-      Alert.alert("Ha habido un error");
+      Alert.alert("An error has been encountered");
       console.log(error);
     }
   };

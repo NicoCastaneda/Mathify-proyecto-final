@@ -65,7 +65,7 @@ export default function HomeScreen() {
         <ScrollView style={{ height: "60%" }}>
           
         <View>
-          <Text>Lecciones</Text>
+          <Text>Lessons</Text>
         {lecciones.map((leccion, index) => (
 
           <Button

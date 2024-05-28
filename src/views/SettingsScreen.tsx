@@ -4,8 +4,61 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import BuyClues from '../components/buyClues'
 import React, { useContext, useRef } from 'react'
 import NavBar from '../components/NavBar';
+import { getAuth, updateEmail, updatePassword } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppContext } from '../context/AppContext';
+import { user } from '../interface/user';
+import { doc, updateDoc } from 'firebase/firestore/lite';
+import { dbInstance } from '../../firebase-config';
 
-export default function SettingsScreen() {
+export default function SettingsScreen({navigation}: any) {
+  const { perfil, setPerfil } = useContext(AppContext)
+  const updateUserEmail = async (newEmail: string) => {
+    try {
+      const auth = getAuth();
+      updateEmail(auth.currentUser, newEmail).then(() => {
+      }).catch((error) => {
+        console.log("Hubo un error con el getAuth: ",error)
+      });
+      await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
+        email: newEmail
+      });
+      var user = {...perfil, email: newEmail} as user
+      setPerfil(user)
+      await AsyncStorage.setItem("perfil", JSON.stringify(user));
+      console.log("Email actualizado")
+      Alert.alert("Success!","Your Email has been updated!")
+      navigation.navigate("Settings")
+      
+    } catch (error) {
+      console.log("Hubo un error general: ",error)
+      Alert.alert("Oh, no!","We couldn't update your Email :(")
+    }
+  }
+
+  const updateUserPassword = async (newPassword: string) => {
+      const auth = getAuth();
+      updatePassword(auth.currentUser, newPassword).then(() => {
+        Alert.alert("Success!","Your Password has been updated!")
+      }).catch((error) => {
+        console.log("Hubo un error con el getAuth: ",error)
+        Alert.alert("Oh, no!","We couldn't update your Password :( (If you logged in with a Google account, you can't change your password)")
+      });
+  }
+
+  const updateUserName = async (newUsername: string) => {
+    try {
+      var user = {...perfil, nombre: newUsername} as user
+      setPerfil(user)
+      await AsyncStorage.setItem("perfil", JSON.stringify(user));
+      console.log("Email actualizado")
+      Alert.alert("Success!","Your Username has been updated!")
+    } catch (error) {
+      console.log("Hubo un error general: ",error)
+      Alert.alert("Oh, no!","We couldn't update your Username :(")
+    }
+  }
+
   return (
     <View style={styles.container}>
       <LinearGradient

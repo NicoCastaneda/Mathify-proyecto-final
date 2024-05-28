@@ -57,7 +57,7 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       await AsyncStorage.setItem("perfil", JSON.stringify(user));
       console.log("Guardando...");
     } catch (error) {
-      Alert.alert("Ha habido un error");
+      Alert.alert("An error has been encountered");
       console.log(error);
     }
   };
@@ -98,7 +98,7 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       if (currentExerciseIndex < exercises.length - 1) {
         setCurrentExerciseIndex(currentExerciseIndex + 1);
       } else {
-        showModal("¡Felicidades!", "Has completado la lección exitosamente.", true);
+        showModal("¡Congrats!", "You completed the Lesson!", true);
         var newAchieve = perfil.achievements
         if (newAchieve.indexOf(leccionGlobal.nombre) != null) {
           newAchieve.push(leccionGlobal.nombre)
@@ -113,7 +113,7 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       if (lives > 1) {
         setLives(lives - 1);
       } else {
-        showModal("¡Derrota!", "Has perdido todas tus vidas.", true);
+        showModal("¡Epic Fail!", "You lost all of your lives", true);
       }
     }
   };

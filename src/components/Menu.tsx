@@ -21,7 +21,7 @@ const Menu = ({ close }: contents) => {
       console.log("Eliminando...")
       setPerfil({} as user)
     } catch (error) {
-      Alert.alert("Ha habido un error")
+      Alert.alert("An error has been encountered")
       console.log(error)
     }
   }
