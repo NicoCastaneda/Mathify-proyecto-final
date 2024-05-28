@@ -25,11 +25,8 @@ import { dbInstance, uploadToFirebase } from "../../firebase-config";
 import { and, doc, updateDoc } from "firebase/firestore/lite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { user } from "../interface/user";
-import { handleIntegrationMP } from "../utils/mp";
-import { WebBrowserResultType, openBrowserAsync } from "expo-web-browser";
 
 const ProfileScreen = (navigation) => {
-  const appState = useRef(AppState.currentState);
   const { perfil, setPerfil } = useContext(AppContext);
   const [permission, requestPermission] = useCameraPermissions();
   const [fotoUri, setFotoUri] = useState("");
@@ -53,34 +50,6 @@ const ProfileScreen = (navigation) => {
     setFotoUri("");
   }, [perfil.email]);
 
-  const buyClues = async (quantity: number) => {
-    const data: Array<string> = await handleIntegrationMP(quantity);
-    if (!data) {
-      return console.log("Algo ha pasao'");
-    } else {
-      const comprar = await openBrowserAsync(data[0])
-      console.log(comprar)
-      wait(300).then(async () => {
-        if (appState.current === "active") {
-          await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
-            clues: perfil.clues + quantity,
-          });
-          const user = {...perfil, clues: perfil.clues+quantity} as user
-          setPerfil(prevPerfil => ({
-            ...prevPerfil,
-            clues: prevPerfil.clues + quantity
-          }));
-          try {
-            await AsyncStorage.setItem("perfil", JSON.stringify(user))
-            console.log("Guardando...")
-          } catch (error) {
-            Alert.alert("Ha habido un error")
-            console.log(error)
-          }
-        }
-      })
-    }
-  };
 
   const updatePhoto = async (uri: string) => {
     await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
@@ -193,7 +162,6 @@ const ProfileScreen = (navigation) => {
       <View style={{ marginHorizontal: "5%" }}>
         <Text style={styles.title}>Statistics</Text>
         <Text style={styles.title}>Exp</Text>
-        <Button title="Conseguir 10 Clues" onPress={() => buyClues(10)} />
       </View>
 
       <View style={styles.navbar}>

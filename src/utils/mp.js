@@ -1,4 +1,4 @@
-export const handleIntegrationMP = async (quantity) => {
+export const handleIntegrationMP = async (quantity, unit_price) => {
     const preferencia = {
         "items": [
           {
@@ -8,8 +8,8 @@ export const handleIntegrationMP = async (quantity) => {
             "picture_url": "http://www.myapp.com/myimage.jpg",
             "category_id": "clues",
             "quantity": quantity,
-            "currency_id": "COP",
-            "unit_price": 1000
+            "currency_id": "USD",
+            "unit_price": Number(`${unit_price/quantity}`)
           }
         ]
       }
