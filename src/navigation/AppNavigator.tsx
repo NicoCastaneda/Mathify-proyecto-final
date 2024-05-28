@@ -244,7 +244,7 @@ const AppNavigator = () => {
                 style={{ marginLeft: 20 }}
                 onPress={() => {
                   Alert.alert(
-                    "You want to go bakc to the Main Menu?",
+                    "Do you want to go back to the Main Menu?",
                     "All progress will be lost",
                     [
                       {

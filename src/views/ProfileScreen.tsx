@@ -156,6 +156,9 @@ const ProfileScreen = (navigation) => {
             >
               {perfil.clues}
             </Text>
+            <Text style={{ fontSize: 23,
+                color: "white",
+                fontWeight: "bold",}}>           Exp: 587</Text>
           </View>
         </View>
       </View>

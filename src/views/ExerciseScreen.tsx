@@ -43,14 +43,15 @@ export type Exercise = {
 };
 
 export default function ExerciseScreen({ route, navigation }: Props) {
-  const { perfil, setPerfil, leccion: leccionGlobal , setHelp} = useContext(AppContext);
+  const { perfil, setPerfil, leccion: leccionGlobal, setHelp } = useContext(AppContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const [shouldNavigate, setShouldNavigate] = useState(false);
-  var equation = "2x+8=2";
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [lives, setLives] = useState(2);
   const [modal2Visible, setModal2Visible] = useState(false);
+
+  const [modalBienVisible, setModalBienVisible] = useState(false);
+  const [modalMalVisible, setModalMalVisible] = useState(false);
 
   const setInfo = async (user: user) => {
     try {
@@ -97,23 +98,27 @@ export default function ExerciseScreen({ route, navigation }: Props) {
     if (isCorrect) {
       if (currentExerciseIndex < exercises.length - 1) {
         setCurrentExerciseIndex(currentExerciseIndex + 1);
+        setModalBienVisible(true);
+        setTimeout(() => setModalBienVisible(false), 1000);
       } else {
-        showModal("¡Congrats!", "You completed the Lesson!", true);
+        showModal("¡Congrats!", "You have completed the Lesson!", true);
         var newAchieve = perfil.achievements
         if (!newAchieve.includes(leccionGlobal.nombre)) {
           newAchieve.push(leccionGlobal.nombre)
-          setPerfil({...perfil, achievements: newAchieve})
+          setPerfil({ ...perfil, achievements: newAchieve })
           await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {
             achievements: newAchieve
           });
-          setInfo({...perfil, achievements: newAchieve})
+          setInfo({ ...perfil, achievements: newAchieve })
         }
       }
     } else {
       if (lives > 1) {
         setLives(lives - 1);
+        setModalMalVisible(true);
+        setTimeout(() => setModalMalVisible(false), 800);
       } else {
-        showModal("¡Epic Fail!", "You lost all of your lives", true);
+        showModal("¡Epic Fail!", "You lost all your lives", true);
       }
     }
   };
@@ -173,7 +178,7 @@ export default function ExerciseScreen({ route, navigation }: Props) {
   }, [leccionGlobal]);
 
   useEffect(() => {
-    
+
   }, [route.params]);
 
   return (
@@ -186,7 +191,10 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       />
       <Text style={styles.title}>{leccionGlobal ? leccionGlobal.nombre : 'Cargando...'}</Text>
       <View style={styles.clues}>
-        <Text style={styles.getClueText2}>Exercise {currentExerciseIndex + 1}/{exercises.length}</Text>
+        <View style={{ flex: 1, alignContent: 'flex-start', marginLeft: 20 }}>
+          <Text style={styles.getClueText2}>Exercise {currentExerciseIndex + 1}/{exercises.length}</Text>
+        </View>
+
         <Text style={styles.getClueText2}>{lives}</Text>
         <MaterialCommunityIcons name="heart" size={30} color='red' />
         <Text style={styles.getClueText2}>{perfil.clues}</Text>
@@ -232,6 +240,18 @@ export default function ExerciseScreen({ route, navigation }: Props) {
           <Text>Close</Text>
         </TouchableOpacity>
       </Modal>
+
+      <Modal visible={modalBienVisible} animationType='slide' transparent={true}>
+        <View style={styles.bien}>
+          <Text style={styles.modalText}>Correct!</Text>
+        </View>
+      </Modal>
+
+      <Modal visible={modalMalVisible} animationType='slide' transparent={true}>
+        <View style={styles.mal}>
+          <Text style={styles.modalText}>Incorrect!  -1❤️</Text>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -246,12 +266,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: -100,
+
   },
   getClue: {
     flexDirection: 'row',
     gap: 20,
     position: 'absolute',
-    bottom:20,
+    bottom: 20,
     left: '15%',
     right: '15%',
     height: 50,
@@ -281,7 +302,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   title: {
-    color:"white",
+    color: "white",
     marginLeft: 20,
     marginTop: 20,
     textAlign: 'left',
@@ -296,6 +317,37 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 30,
     marginBottom: 10,
+  },
+  bien: {
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: '100%',
+    maxHeight: 100,
+    width: 200,
+    backgroundColor: '#74e386',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  mal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: '100%',
+    maxHeight: 100,
+    width: 200,
+    backgroundColor: '#fa7878',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  modalText: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textAlignVertical: 'center',
   }
 });
 
