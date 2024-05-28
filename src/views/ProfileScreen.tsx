@@ -169,7 +169,7 @@ const ProfileScreen = (navigation) => {
       </View>
 
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={loading}
         onRequestClose={() => {
@@ -188,7 +188,7 @@ const ProfileScreen = (navigation) => {
           <View
             style={{ padding: 20, borderRadius: 20, backgroundColor: "white" }}
           >
-            <Text style={{ fontSize: 24, fontWeight: "bold", color: "white" }}>
+            <Text style={{ fontSize: 24, fontWeight: "bold", color: "black" }}>
               Cargando...
             </Text>
             <ActivityIndicator></ActivityIndicator>
