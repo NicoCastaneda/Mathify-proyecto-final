@@ -186,7 +186,7 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       />
       <Text style={styles.title}>{leccionGlobal ? leccionGlobal.nombre : 'Cargando...'}</Text>
       <View style={styles.clues}>
-        <Text style={styles.getClueText2}>Ejercicio {currentExerciseIndex + 1}/{exercises.length}</Text>
+        <Text style={styles.getClueText2}>Exercise {currentExerciseIndex + 1}/{exercises.length}</Text>
         <Text style={styles.getClueText2}>{lives}</Text>
         <MaterialCommunityIcons name="heart" size={30} color='red' />
         <Text style={styles.getClueText2}>{perfil.clues}</Text>
@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   title: {
+    color:"white",
     marginLeft: 20,
     marginTop: 20,
     textAlign: 'left',
