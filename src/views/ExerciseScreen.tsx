@@ -100,7 +100,7 @@ export default function ExerciseScreen({ route, navigation }: Props) {
       } else {
         showModal("¡Congrats!", "You completed the Lesson!", true);
         var newAchieve = perfil.achievements
-        if (newAchieve.indexOf(leccionGlobal.nombre) != null) {
+        if (!newAchieve.includes(leccionGlobal.nombre)) {
           newAchieve.push(leccionGlobal.nombre)
           setPerfil({...perfil, achievements: newAchieve})
           await updateDoc(doc(dbInstance, "perfiles", perfil.profileID), {

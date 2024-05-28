@@ -30,7 +30,7 @@ const TypingEx = ({ enunciado, problema, respuesta, onAnswer }) => {
           onChangeText={setUserInput}
         />
       </View>
-      <TouchableOpacity style={styles.check} onPress={handleCheck}>
+      <TouchableOpacity style={styles.check} onPress={() => {handleCheck(); setUserInput("")}}>
         <LinearGradient
           colors={["#C674F1", "#F22E7A"]}
           start={{ x: 0, y: 0 }}
