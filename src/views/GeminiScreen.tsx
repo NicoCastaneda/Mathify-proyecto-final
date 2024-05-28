@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ChatBubble } from '../components/ChatBubble';
@@ -93,6 +93,10 @@ export default function GeminiScreen() {
 
     return (
         <View style={styles.container}>
+            <View style={{flexDirection: "row"}}>
+            <Image style={styles.bot} source={require("../../assets/mathibot.png")} />
+            <Text style={styles.botText}>Mathibot is thinking...</Text>
+            </View>
             <FlatList
                 data={chat}
                 renderItem={renderChatItem}
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         justifyContent: "flex-start",
         paddingHorizontal: 16,
-        paddingTop: 150,
+        paddingTop: 20,
     },
     loading: {
         flex: 1,
@@ -140,4 +144,17 @@ const styles = StyleSheet.create({
         color: "red",
         marginTop: 10,
     },
+    bot:{
+        width: 200,
+        height: 200,
+        alignSelf: "flex-start",
+        marginTop: 110,
+        marginLeft: 10,
+    },
+    botText:{
+        fontSize: 15,
+        fontWeight: "bold",
+        marginTop: 170,
+        marginLeft: 10,
+    }
 });
